@@ -1,0 +1,12 @@
+{
+  // Deploy en Cloudflare Workers como sitio estático (SPA).
+  // Docs: https://developers.cloudflare.com/workers/static-assets/routing/single-page-application/
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cersap-sistema",
+  "compatibility_date": "2026-11-15",
+  "assets": {
+    "directory": "./dist",
+    // Cualquier ruta que no sea un archivo devuelve index.html (lo resuelve React Router)
+    "not_found_handling": "single-page-application"
+  }
+}

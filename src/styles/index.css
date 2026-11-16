@@ -1,0 +1,347 @@
+/* =============================================================================
+   Sistema visual CERSAP · "Noche de partido"
+   La explicación completa está en docs/DISENO.md. Acá viven los tokens.
+   ============================================================================= */
+@import 'tailwindcss';
+@import '@fontsource-variable/archivo/wdth.css';
+
+@theme {
+  /* Tipografía: una sola familia. El ancho variable da el tono de camiseta. */
+  --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Superficies claras (apenas teñidas de azul, nunca gris puro) */
+  --color-cancha: #edf2f7; /* fondo de página */
+  --color-surface: #ffffff;
+  --color-ink: #0b1b2b;
+  --color-ink-2: #3f5163;
+  --color-ink-3: #5b6d7f;
+  --color-line: #dce4ec;
+  --color-line-strong: #bfccd8;
+
+  /* Noche: el azul marino del estadio. Menú y marcador. */
+  --color-noche-950: #051424;
+  --color-noche-900: #0a1f35;
+  --color-noche-850: #0e2740;
+  --color-noche-800: #12304d;
+  --color-noche-700: #1b4064;
+  --color-noche-600: #275680;
+  --color-noche-text: #eef5fb; /* texto sobre noche */
+  --color-noche-muted: #8da7bf; /* texto secundario sobre noche (AA) */
+  --color-celeste: #4fb3ea; /* acento sobre noche */
+
+  /* Azul del escudo. 500 es el del logo; 600 es el de los botones (AA con blanco). */
+  --color-brand-50: #edf6fc;
+  --color-brand-100: #d5ebf8;
+  --color-brand-200: #a9d7f1;
+  --color-brand-300: #6dbde8;
+  --color-brand-400: #2aa1dd;
+  --color-brand-500: #008ad4;
+  --color-brand-600: #0073b8;
+  --color-brand-700: #005c94;
+  --color-brand-800: #064a75;
+  --color-brand-900: #0a3857;
+
+  /* Rojo de la cinta: vencido, rechazar, borrar */
+  --color-rojo-50: #fdecec;
+  --color-rojo-100: #fbd5d6;
+  --color-rojo-400: #ff6b6e; /* sobre noche */
+  --color-rojo-500: #ef2b2d;
+  --color-rojo-600: #d91f26;
+  --color-rojo-700: #a8161c;
+
+  /* Verde: pagado, confirmar */
+  --color-verde-50: #e6f4ec;
+  --color-verde-100: #c9e8d6;
+  --color-verde-400: #4ade80; /* sobre noche */
+  --color-verde-600: #12814a;
+  --color-verde-700: #0b6238;
+
+  /* Ámbar: en revisión */
+  --color-ambar-50: #fdf1d7;
+  --color-ambar-100: #f9e0a8;
+  --color-ambar-400: #fbbf24; /* sobre noche */
+  --color-ambar-500: #d98b0b;
+  --color-ambar-800: #7a4b00;
+
+  /* Radios según el papel de cada pieza */
+  --radius-control: 12px;
+  --radius-card: 16px;
+  --radius-sheet: 24px;
+
+  /* Sombras teñidas de noche, solo en lo que se despega del fondo */
+  --shadow-raise: 0 1px 2px rgb(10 31 53 / 0.05), 0 2px 10px -2px rgb(10 31 53 / 0.06);
+  --shadow-float: 0 24px 60px -16px rgb(10 31 53 / 0.45), 0 6px 16px rgb(10 31 53 / 0.1);
+
+  /* Curvas de movimiento (emil-design-eng) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--color-cancha);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* En celulares, 16px evita que iOS haga zoom al tocar un campo */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+  @media (min-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: 15px;
+    }
+  }
+
+  :focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--color-brand-500) 60%, transparent);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-brand-100);
+  }
+}
+
+@layer components {
+  /* Títulos: Archivo angosta y pesada, como la numeración de una camiseta */
+  .display {
+    font-stretch: 74%;
+    font-weight: 800;
+    letter-spacing: -0.012em;
+    word-spacing: 0.06em;
+    line-height: 1.04;
+  }
+
+  /* "Dorsal": cifras de dinero y conteos. Siempre tabulares. */
+  .dorsal {
+    font-stretch: 64%;
+    font-weight: 850;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* La cinta tricolor del escudo: la firma. Una sola vez por pantalla. */
+  .cinta {
+    height: 4px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-rojo-500) 0 33.4%,
+      #ffffff 33.4% 66.6%,
+      var(--color-brand-500) 66.6% 100%
+    );
+  }
+
+  /* Superficie "noche": marcador y menú */
+  .noche {
+    background-color: var(--color-noche-900);
+    color: var(--color-noche-text);
+  }
+
+  /* Brillo de reflector: una luz suave arriba a la izquierda del marcador */
+  .reflector {
+    background-image:
+      radial-gradient(120% 90% at 0% 0%, rgb(79 179 234 / 0.22), transparent 55%),
+      radial-gradient(80% 70% at 100% 100%, rgb(0 138 212 / 0.16), transparent 60%);
+  }
+
+  /* Presión de los botones y de todo lo que se toca (emil: scale 0.97, 160ms) */
+  .pressable {
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease,
+      box-shadow 150ms ease;
+  }
+  .pressable:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  /* Borde físico de los botones sólidos */
+  .solid-edge {
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.14),
+      inset 0 -2px 0 rgb(0 0 0 / 0.18);
+  }
+
+  /* Diálogos: en celular suben como hoja (curva de cajón de iOS); en escritorio
+     aparecen al centro desde 0.96. Los modales no tienen origen: quedan centrados. */
+  .dialog-panel {
+    transition:
+      translate 420ms var(--ease-drawer),
+      opacity 200ms ease;
+  }
+  @starting-style {
+    .dialog-panel {
+      translate: 0 100%;
+    }
+  }
+  @media (min-width: 768px) {
+    .dialog-panel {
+      transition:
+        scale 220ms var(--ease-out),
+        opacity 220ms var(--ease-out);
+    }
+    @starting-style {
+      .dialog-panel {
+        translate: none;
+        scale: 0.96;
+        opacity: 0;
+      }
+    }
+  }
+  dialog::backdrop {
+    background: rgb(5 20 36 / 0.62);
+    transition: opacity 260ms ease;
+  }
+  @starting-style {
+    dialog[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  /* Avisos: entran desde abajo, como Sonner (400 ms, ease) */
+  .toast {
+    transition:
+      translate 400ms ease,
+      opacity 400ms ease;
+  }
+  @starting-style {
+    .toast {
+      translate: 0 100%;
+      opacity: 0;
+    }
+  }
+
+  /* Indicador de pestañas: se desliza (movimiento en pantalla = ease-in-out) */
+  .tab-indicator {
+    transition:
+      translate 260ms var(--ease-in-out),
+      width 260ms var(--ease-in-out);
+  }
+
+  /* Esqueleto de carga: la forma del contenido mientras llega */
+  .skeleton {
+    background: linear-gradient(90deg, #e3eaf1 0%, #f1f5f9 40%, #e3eaf1 80%) 0 0 / 300% 100%;
+    border-radius: 8px;
+    animation: shimmer 1.4s linear infinite;
+  }
+  .noche .skeleton {
+    background: linear-gradient(90deg, #12304d 0%, #1b4064 40%, #12304d 80%) 0 0 / 300% 100%;
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Entrada única y escalonada (portal). Cada pieza define --d (retardo). */
+  .entrar {
+    animation: entrar 460ms var(--ease-out) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .entrar-suave {
+    animation: entrar-suave 360ms var(--ease-out) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .aparecer {
+    animation: aparecer 500ms ease both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* Barras del gráfico: crecen desde la línea de base, una vez */
+  .crecer {
+    transform-origin: bottom;
+    animation: crecer 520ms var(--ease-out) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  @keyframes entrar {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+  @keyframes entrar-suave {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes crecer {
+    from {
+      transform: scaleY(0.06);
+      opacity: 0.4;
+    }
+  }
+  @keyframes shimmer {
+    to {
+      background-position: -300% 0;
+    }
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Reducir movimiento: se va el desplazamiento, queda la opacidad */
+  @media (prefers-reduced-motion: reduce) {
+    .entrar,
+    .entrar-suave {
+      animation-name: aparecer;
+      animation-duration: 200ms;
+      animation-delay: 0ms;
+    }
+    .crecer {
+      animation: aparecer 200ms ease both;
+    }
+    .pressable:active:not(:disabled) {
+      transform: none;
+    }
+    .skeleton {
+      animation: none;
+    }
+    .dialog-panel,
+    .toast,
+    .tab-indicator {
+      transition-property: opacity;
+    }
+  }
+}
