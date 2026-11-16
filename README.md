@@ -12,7 +12,7 @@ Sistema de gestión del **Centro de Entrenamiento Región Sur, Alto Paraná**. L
 | Publicación | Cloudflare Workers, sirviendo la app como sitio estático |
 | Errores (opcional) | Sentry |
 
-El diseño ("Noche de partido") está descrito en **[docs/DISENO.md](docs/DISENO.md)**, y la guía viva se ve en la app, en `/admin/guia-de-estilo`.
+El diseño (claro, compacto y en filas) está descrito en **[docs/DISENO.md](docs/DISENO.md)**, y la guía viva se ve en la app, en `/admin/guia-de-estilo`.
 
 ---
 

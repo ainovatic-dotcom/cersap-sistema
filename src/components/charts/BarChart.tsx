@@ -28,10 +28,12 @@ type BarChartProps = {
 let alreadyAnimated = false
 
 /**
- * Gráfico de columnas de una sola serie, pensado para el marcador (fondo noche).
+ * Gráfico de columnas de una sola serie, sobre fondo blanco.
  * Reglas (skill dataviz): barras de 24 px como máximo, punta redondeada de 4 px y
  * base recta, una sola línea de base, valor escrito solo en la barra destacada,
  * tooltip al pasar o enfocar cada barra y una tabla oculta para lectores de pantalla.
+ * Colores validados con validate_palette.js: brand-300 (meses anteriores) y brand-600
+ * (mes actual). brand-300 queda en 2:1 contra el blanco, por eso el tooltip y la tabla.
  */
 export function BarChart({ bars, format, formatShort = format, title, height = 150, className }: BarChartProps) {
   const [animate] = useState(() => {
@@ -48,9 +50,9 @@ export function BarChart({ bars, format, formatShort = format, title, height = 1
     <figure className={cn('m-0', className)}>
       <div className="relative" style={{ height }} role="img" aria-label={title}>
         {/* Líneas guía, muy tenues */}
-        <div aria-hidden="true" className="absolute inset-x-0 top-0 border-t border-dashed border-white/8" />
-        <div aria-hidden="true" className="absolute inset-x-0 top-1/2 border-t border-dashed border-white/8" />
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 border-t border-white/25" />
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 border-t border-dashed border-line" />
+        <div aria-hidden="true" className="absolute inset-x-0 top-1/2 border-t border-dashed border-line" />
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 border-t border-line-strong" />
 
         <div className="absolute inset-0 flex items-end justify-between gap-2 px-1">
           {bars.map((bar, index) => {
@@ -62,7 +64,7 @@ export function BarChart({ bars, format, formatShort = format, title, height = 1
                   <span
                     className={cn(
                       'tabular pointer-events-none absolute z-10 -translate-x-1/2 whitespace-nowrap text-xs font-bold',
-                      isActive ? 'rounded-md bg-white px-2 py-1 text-noche-900 shadow-float' : 'text-white',
+                      isActive ? 'rounded-md bg-ink px-2 py-1 text-white shadow-float' : 'text-ink',
                     )}
                     style={{ left: '50%', bottom: `calc(${Math.max(pct, 2)}% + 6px)` }}
                   >
@@ -83,7 +85,7 @@ export function BarChart({ bars, format, formatShort = format, title, height = 1
                     className={cn(
                       'block w-full max-w-6 rounded-t-[4px] transition-colors duration-150',
                       animate && 'crecer',
-                      bar.highlight ? 'bg-noche-text' : 'bg-celeste group-hover:bg-brand-300',
+                      bar.highlight ? 'bg-brand-600' : 'bg-brand-300 group-hover:bg-brand-400',
                     )}
                     style={{ height: `${Math.max(pct, bar.value > 0 ? 2 : 0)}%`, ['--d' as string]: `${delays[index] ?? 190}ms` }}
                   />
@@ -97,7 +99,7 @@ export function BarChart({ bars, format, formatShort = format, title, height = 1
         {bars.map((bar) => (
           <span
             key={bar.key}
-            className={cn('flex-1 text-center text-xs font-semibold', bar.highlight ? 'text-white' : 'text-noche-muted')}
+            className={cn('flex-1 text-center text-xs font-semibold', bar.highlight ? 'text-ink' : 'text-ink-3')}
           >
             {bar.label}
           </span>

@@ -20,9 +20,8 @@ import {
   MoneyInput,
   PageHeader,
   PaymentStatusBadge,
-  Scoreboard,
-  ScoreStat,
   StudentRow,
+  SummaryStat,
   SearchInput,
   Section,
   Select,
@@ -34,8 +33,8 @@ import {
 import { formatMoney, formatMoneyShort, monthShort } from '@/lib/format'
 
 const COLORS = [
-  { name: 'noche-900', hex: '#0A1F35', use: 'Menú y marcador', className: 'bg-noche-900' },
-  { name: 'celeste', hex: '#4FB3EA', use: 'Acento sobre noche', className: 'bg-celeste' },
+  { name: 'noche-900', hex: '#0A1F35', use: 'Menú lateral y encabezados', className: 'bg-noche-900' },
+  { name: 'celeste', hex: '#4FB3EA', use: 'Ítem activo del menú', className: 'bg-celeste' },
   { name: 'cancha', hex: '#EDF2F7', use: 'Fondo de página', className: 'bg-cancha border border-line' },
   { name: 'surface', hex: '#FFFFFF', use: 'Tarjetas', className: 'bg-surface border border-line' },
   { name: 'ink', hex: '#0B1B2B', use: 'Texto', className: 'bg-ink' },
@@ -68,31 +67,29 @@ export function StyleGuidePage() {
           <div className="cinta rounded-full" />
         </Section>
 
-        <Section title="Marcador" description="La única pieza expresiva de cada pantalla: noche, luz de reflector y la cancha dibujada.">
-          <Scoreboard>
-            <div className="grid gap-6 p-6 md:grid-cols-2">
-              <div>
-                <p className="text-[15px] font-semibold text-noche-muted">Falta cobrar</p>
-                <Money value={8450000} size="xl" className="mt-2 text-white" />
-                <dl className="mt-5 grid grid-cols-2 gap-4 border-t border-white/10 pt-4">
-                  <ScoreStat label="Ya vencido" tone="rojo">3,2 M</ScoreStat>
-                  <ScoreStat label="Cobrado este mes" tone="verde">21 M</ScoreStat>
-                </dl>
-              </div>
-              <BarChart
-                title="Ejemplo de cobranza"
-                format={formatMoney}
-                formatShort={formatMoneyShort}
-                bars={[6, 7, 8, 9, 10, 11].map((month, index) => ({
-                  key: String(month),
-                  label: monthShort(month),
-                  fullLabel: monthShort(month),
-                  value: [26, 27, 25, 28, 27, 21][index] * 1_000_000,
-                  highlight: month === 11,
-                }))}
-              />
+        <Section title="Resumen" description="La cifra que importa en cada pantalla. Tarjeta blanca simple: lo que la distingue es el tamaño de la cifra.">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <p className="text-[15px] text-ink-2">Falta cobrar</p>
+              <Money value={8450000} size="xl" className="mt-1 text-ink" />
+              <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-line pt-4">
+                <SummaryStat label="Ya vencido" tone="rojo">3,2 M</SummaryStat>
+                <SummaryStat label="Cobrado este mes" tone="verde">21 M</SummaryStat>
+              </dl>
             </div>
-          </Scoreboard>
+            <BarChart
+              title="Ejemplo de cobranza"
+              format={formatMoney}
+              formatShort={formatMoneyShort}
+              bars={[6, 7, 8, 9, 10, 11].map((month, index) => ({
+                key: String(month),
+                label: monthShort(month),
+                fullLabel: monthShort(month),
+                value: [26, 27, 25, 28, 27, 21][index] * 1_000_000,
+                highlight: month === 11,
+              }))}
+            />
+          </div>
         </Section>
 
         <Section title="Fila de alumno" description="La única forma de mostrar a un chico en una lista: foto chica, nombre, una línea de datos y el estado a la derecha." flush>

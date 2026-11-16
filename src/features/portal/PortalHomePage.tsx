@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
 import { CircleCheck, Clock, Plus, Upload } from 'lucide-react'
-import { Badge, ButtonLink, Card, Money, Scoreboard, StudentRow, WhatsAppLink } from '@/components/ui'
+import { Badge, ButtonLink, Card, Money, StudentRow, SummaryCard, WhatsAppLink } from '@/components/ui'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { ageFrom, formatMoney } from '@/lib/format'
 import { useSignedUrls } from '@/lib/storage'
@@ -14,7 +14,7 @@ let introPlayed = false
 
 /**
  * Coreografía de la entrada (skill choreograph):
- *   saludo + marcador (protagonista)  0 ms    460 ms  sube 14 px
+ *   saludo + resumen (protagonista)   0 ms    460 ms  sube 14 px
  *   lista de hijos (una sola pieza)   90 ms   360 ms  sube 8 px
  *   botón de WhatsApp                 quieto
  */
@@ -45,45 +45,45 @@ export function PortalHomePage() {
         <h1 className="display mb-4 text-[34px] text-ink">{firstName ? `Hola, ${firstName}` : 'Hola'}</h1>
 
         {/* Lo primero que quiere saber una familia: cuánto debe y cómo pagarlo */}
-        <Scoreboard>
+        <SummaryCard>
           {totalOwed > 0 ? (
-            <div className="p-5 pt-6">
-              <p className="text-[15px] font-semibold text-noche-muted">Te falta pagar</p>
-              <Money value={totalOwed} size="hero" className="mt-2 text-white" />
-              <p className="mt-3 text-[15px] text-noche-text">
+            <div className="p-5">
+              <p className="text-[15px] text-ink-2">Te falta pagar</p>
+              <Money value={totalOwed} size="xl" className="mt-1 text-ink" />
+              <p className="mt-2 text-[15px] text-ink">
                 {owed.length === 1 ? '1 cuota' : `${owed.length} cuotas`}
                 {overdueCount > 0 && (
-                  <span className="font-semibold text-rojo-400">
+                  <span className="font-semibold text-rojo-600">
                     {overdueCount === 1 ? ', 1 ya venció' : `, ${overdueCount} ya vencieron`}
                   </span>
                 )}
                 {'. '}
-                <span className="text-noche-muted">Se paga hasta el día {data.org.due_day} de cada mes.</span>
+                <span className="text-ink-3">Se paga hasta el día {data.org.due_day} de cada mes.</span>
               </p>
               {inReview > 0 && (
-                <p className="mt-3 flex items-center gap-2 rounded-control bg-ambar-400/12 px-3 py-2.5 text-sm font-medium text-ambar-400">
+                <p className="mt-3 flex items-center gap-2 rounded-control bg-ambar-50 px-3 py-2.5 text-sm font-medium text-ambar-800">
                   <Clock aria-hidden="true" className="size-4 shrink-0" />
                   Ya informaste {formatMoney(inReview)}. Administración lo está revisando.
                 </p>
               )}
               {canPay && (
-                <ButtonLink to="/portal/pagar" variant="light" size="lg" block className="mt-5" icon={<Upload aria-hidden="true" />}>
+                <ButtonLink to="/portal/pagar" size="lg" block className="mt-4" icon={<Upload aria-hidden="true" />}>
                   Informar un pago
                 </ButtonLink>
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-4 p-5 py-7">
-              <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-verde-400/16 text-verde-400">
-                <CircleCheck aria-hidden="true" className="size-9" />
+            <div className="flex items-center gap-4 p-5">
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-verde-50 text-verde-600">
+                <CircleCheck aria-hidden="true" className="size-7" />
               </span>
               <div>
-                <p className="display text-[30px] text-white">Estás al día</p>
-                <p className="text-[15px] text-noche-muted">No tenés cuotas pendientes. ¡Gracias!</p>
+                <p className="display text-[25px] text-ink">Estás al día</p>
+                <p className="text-[15px] text-ink-3">No tenés cuotas pendientes. ¡Gracias!</p>
               </div>
             </div>
           )}
-        </Scoreboard>
+        </SummaryCard>
       </div>
 
       <section aria-labelledby="hijos">

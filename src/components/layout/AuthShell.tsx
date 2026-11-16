@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { CanchaLines } from '@/components/ui/Scoreboard'
+import { CanchaLines } from './CanchaLines'
 
 type AuthShellProps = {
   title: string

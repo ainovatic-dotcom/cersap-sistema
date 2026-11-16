@@ -11,9 +11,9 @@ import {
   FeeStateBadge,
   IconButton,
   SkeletonRows,
+  SummaryCard,
+  SummaryStat,
   PageHeader,
-  Scoreboard,
-  ScoreStat,
   Tabs,
   useToast,
   WhatsAppLink,
@@ -143,16 +143,16 @@ export function FeesPage() {
           </div>
 
           {all.length > 0 && (
-            <Scoreboard lines={false} className="mb-4">
+            <SummaryCard className="mb-4">
               <div className="p-5 md:px-6">
                 <dl className="grid grid-cols-3 gap-4">
-                  <ScoreStat label="Total del mes">{formatMoneyShort(billed)}</ScoreStat>
-                  <ScoreStat label="Cobrado" tone="verde">
+                  <SummaryStat label="Total del mes">{formatMoneyShort(billed)}</SummaryStat>
+                  <SummaryStat label="Cobrado" tone="verde">
                     {formatMoneyShort(collected)}
-                  </ScoreStat>
-                  <ScoreStat label="Falta cobrar" tone={owed > 0 ? 'rojo' : undefined}>
+                  </SummaryStat>
+                  <SummaryStat label="Falta cobrar" tone={owed > 0 ? 'rojo' : undefined}>
                     {formatMoneyShort(owed)}
-                  </ScoreStat>
+                  </SummaryStat>
                 </dl>
                 <div className="mt-4">
                   <div
@@ -161,17 +161,17 @@ export function FeesPage() {
                     aria-valuemin={0}
                     aria-valuemax={100}
                     aria-valuenow={progress}
-                    className="h-2 overflow-hidden rounded-full bg-white/10"
+                    className="h-2 overflow-hidden rounded-full bg-cancha"
                   >
-                    <span className="block h-full rounded-full bg-verde-400" style={{ width: `${progress}%` }} />
+                    <span className="block h-full rounded-full bg-verde-600" style={{ width: `${progress}%` }} />
                   </div>
-                  <p className="mt-2 text-[13px] text-noche-muted">
-                    Se cobró el <span className="tabular font-bold text-white">{progress} %</span> de lo que se factura en{' '}
+                  <p className="mt-2 text-[13px] text-ink-3">
+                    Se cobró el <span className="tabular font-bold text-ink">{progress} %</span> de lo que se factura en{' '}
                     {monthName(month).toLowerCase()}.
                   </p>
                 </div>
               </div>
-            </Scoreboard>
+            </SummaryCard>
           )}
         </>
       )}

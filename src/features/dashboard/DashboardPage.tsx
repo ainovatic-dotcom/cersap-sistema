@@ -10,10 +10,10 @@ import {
   Money,
   PageHeader,
   StudentRow,
-  Scoreboard,
-  ScoreStat,
   Section,
   Skeleton,
+  SummaryCard,
+  SummaryStat,
 } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import { ageFrom, formatDateLong, formatMoney, formatMoneyShort, monthName, monthShort } from '@/lib/format'
@@ -83,7 +83,7 @@ export function DashboardPage() {
           </Alert>
         )}
 
-        <Marcador data={data} />
+        <Resumen data={data} />
 
         <div className="grid gap-4 md:gap-5 lg:grid-cols-[1fr_1.15fr]">
           <MonthStates data={data} />
@@ -96,36 +96,36 @@ export function DashboardPage() {
   )
 }
 
-/** El marcador: lo que falta cobrar, lo cobrado y la cobranza de los últimos 6 meses. */
-function Marcador({ data }: { data: DashboardData }) {
+/** El resumen: lo que falta cobrar, lo cobrado y la cobranza de los últimos 6 meses. */
+function Resumen({ data }: { data: DashboardData }) {
   const series = data.collection_series ?? []
   return (
-    <Scoreboard aria-labelledby="marcador-titulo">
-      <div className="grid gap-8 p-5 md:p-7 lg:grid-cols-[1fr_1.1fr] lg:gap-10">
+    <SummaryCard aria-labelledby="resumen-titulo">
+      <div className="grid gap-6 p-5 md:p-6 lg:grid-cols-[1fr_1.1fr] lg:gap-10">
         <div className="flex flex-col">
-          <p id="marcador-titulo" className="text-[15px] font-semibold text-noche-muted">
+          <p id="resumen-titulo" className="text-[15px] text-ink-2">
             Falta cobrar
           </p>
-          <Money value={data.pending_balance} size="hero" className="mt-2 text-white" />
-          <dl className="mt-auto grid grid-cols-2 gap-x-6 gap-y-5 border-t border-white/10 pt-5 sm:grid-cols-4 lg:mt-8 lg:grid-cols-2 xl:grid-cols-4">
-            <ScoreStat label="Ya vencido" tone={data.overdue_balance > 0 ? 'rojo' : undefined}>
+          <Money value={data.pending_balance} size="xl" className="mt-1 text-ink" />
+          <dl className="mt-auto grid grid-cols-2 gap-x-6 gap-y-5 border-t border-line pt-4 sm:grid-cols-4 lg:mt-6 lg:grid-cols-2 xl:grid-cols-4">
+            <SummaryStat label="Ya vencido" tone={data.overdue_balance > 0 ? 'rojo' : undefined}>
               {formatMoneyShort(data.overdue_balance)}
-            </ScoreStat>
-            <ScoreStat label="Cobrado este mes" tone="verde">
+            </SummaryStat>
+            <SummaryStat label="Cobrado" tone="verde">
               {formatMoneyShort(data.collected_this_month)}
-            </ScoreStat>
-            <ScoreStat label="Alumnos activos">{data.active_students}</ScoreStat>
-            <ScoreStat label="Familias">{data.families}</ScoreStat>
+            </SummaryStat>
+            <SummaryStat label="Alumnos">{data.active_students}</SummaryStat>
+            <SummaryStat label="Familias">{data.families}</SummaryStat>
           </dl>
         </div>
         <div className="flex flex-col">
           <div className="mb-4 flex items-baseline justify-between gap-3">
-            <p className="text-[15px] font-semibold text-white">Cobrado por mes</p>
-            <p className="text-[13px] text-noche-muted">Últimos 6 meses</p>
+            <p className="text-[15px] font-semibold text-ink">Cobrado por mes</p>
+            <p className="text-[13px] text-ink-3">Últimos 6 meses</p>
           </div>
           <BarChart
             title="Cobrado por mes, últimos 6 meses"
-            height={170}
+            height={150}
             format={formatMoney}
             formatShort={formatMoneyShort}
             bars={series.map((point, index) => ({
@@ -138,7 +138,7 @@ function Marcador({ data }: { data: DashboardData }) {
           />
         </div>
       </div>
-    </Scoreboard>
+    </SummaryCard>
   )
 }
 
@@ -301,9 +301,9 @@ function DashboardSkeleton() {
   return (
     <div role="status" aria-label="Cargando el panel" className="flex flex-col gap-5">
       <Skeleton className="h-10 w-40" />
-      <div className="noche flex h-[330px] flex-col gap-4 rounded-[22px] p-7">
+      <div className="flex h-[280px] flex-col gap-4 rounded-card border border-line bg-surface p-6">
         <Skeleton className="h-4 w-28" />
-        <Skeleton className="h-16 w-72" />
+        <Skeleton className="h-12 w-64" />
         <Skeleton className="mt-auto h-6 w-full" />
       </div>
       <div className="grid gap-5 lg:grid-cols-2">

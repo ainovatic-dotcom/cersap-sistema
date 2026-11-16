@@ -8,18 +8,15 @@ import { Spinner } from './Spinner'
  *  - Un solo botón principal por superficie: la acción que casi todos van a hacer.
  *  - El texto dice lo que pasa al tocarlo ("Confirmar pago", no "Aceptar").
  *  - En celular, las acciones principales van a todo el ancho (block).
- *  - Sobre fondo noche se usan "light" (principal) y "glass" (secundario).
  *  - Al apretar se hunden (scale 0.97, 160 ms): la interfaz confirma que escuchó.
  */
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'success' | 'light' | 'glass'
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'success'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 const VARIANTS: Record<ButtonVariant, string> = {
   primary: 'solid-edge bg-brand-600 text-white hover:bg-brand-700',
   success: 'solid-edge bg-verde-600 text-white hover:bg-verde-700',
   danger: 'solid-edge bg-rojo-600 text-white hover:bg-rojo-700',
-  light: 'bg-white text-noche-900 shadow-[0_1px_0_rgb(255_255_255/0.6)_inset,0_6px_18px_-8px_rgb(0_0_0/0.5)] hover:bg-brand-50',
-  glass: 'border border-white/18 bg-white/8 text-noche-text hover:bg-white/14',
   secondary: 'border-[1.5px] border-line-strong bg-surface text-ink hover:border-ink-3 hover:bg-cancha',
   ghost: 'text-brand-700 hover:bg-brand-50 active:bg-brand-100',
 }

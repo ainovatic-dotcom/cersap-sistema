@@ -46,8 +46,8 @@ export function SkeletonRows({ rows = 5, avatar = true }: { rows?: number; avata
   return (
     <div role="status" aria-label="Cargando" className="divide-y divide-line">
       {Array.from({ length: rows }, (_, index) => (
-        <div key={index} className="flex items-center gap-3.5 px-4 py-3.5 md:px-5">
-          {avatar && <Skeleton className="size-11 shrink-0 rounded-[12px]" />}
+        <div key={index} className="flex min-h-16 items-center gap-3 px-4 py-2.5 md:px-5">
+          {avatar && <Skeleton className="size-9 shrink-0 rounded-full" />}
           <div className="flex flex-1 flex-col gap-2">
             <Skeleton className="h-4 w-[38%]" />
             <Skeleton className="h-3 w-[56%]" />
