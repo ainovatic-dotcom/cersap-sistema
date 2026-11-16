@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate } from 'react-router'
+import { Link, Navigate } from 'react-router'
 import { Button, FormError, FullPageLoading } from '@/components/ui'
 import { AuthShell } from '@/components/layout/AuthShell'
 import { useAuth } from './AuthProvider'
@@ -28,7 +28,16 @@ export function LoginPage() {
     <AuthShell
       title="Entrá con tu cuenta de Google"
       description="Usá el Gmail que tenés en tu celular. No hace falta crear una contraseña nueva."
-      footer={<p className="text-center">¿Sos mamá, papá o tutor? Después de entrar te pedimos la cédula de tu hijo o hija.</p>}
+      footer={
+        <>
+          <p className="text-center">¿Sos mamá, papá o tutor? Después de entrar te pedimos la cédula de tu hijo o hija.</p>
+          <p className="mt-3 text-center">
+            <Link to="/privacidad" className="font-semibold text-brand-700 hover:underline">
+              Política de privacidad
+            </Link>
+          </p>
+        </>
+      }
     >
       <div className="flex flex-col gap-3">
         <FormError error={error} />

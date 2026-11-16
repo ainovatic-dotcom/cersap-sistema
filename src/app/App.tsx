@@ -5,6 +5,7 @@ import { FullPageLoading, ToastProvider } from '@/components/ui'
 import { AuthProvider } from '@/features/auth/AuthProvider'
 import { HomeRedirect, RequireAdmin, RequireSession } from '@/features/auth/guards'
 import { LoginPage } from '@/features/auth/LoginPage'
+import { PrivacyPage } from '@/features/legal/PrivacyPage'
 import { LinkChildPage } from '@/features/linking/LinkChildPage'
 
 // Cada área se descarga solo cuando hace falta: una familia desde el celular
@@ -26,6 +27,7 @@ const queryClient = new QueryClient({
  * Raíz de la app: proveedores globales y mapa de rutas.
  *
  *   /ingresar     entrar con Google
+ *   /privacidad   política de privacidad (pública, la pide Google)
  *   /             reparte según el rol
  *   /vincular     el tutor valida cédula + nacimiento de su hijo
  *   /portal/*     portal de familias        (app/PortalRoutes.tsx)
@@ -40,6 +42,7 @@ export function App() {
             <Suspense fallback={<FullPageLoading />}>
               <Routes>
                 <Route path="/ingresar" element={<LoginPage />} />
+                <Route path="/privacidad" element={<PrivacyPage />} />
                 <Route
                   path="/"
                   element={
