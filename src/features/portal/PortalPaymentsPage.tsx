@@ -19,8 +19,8 @@ export function PortalPaymentsPage() {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h1 className="display text-[30px] text-ink">Pagos</h1>
-        <p className="mt-1 text-[15px] text-ink-2">Lo que informaste y lo que registró administración.</p>
+        <h1 className="display text-[1.875rem] text-ink">Pagos</h1>
+        <p className="mt-1 text-[0.9375rem] text-ink-2">Lo que informaste y lo que registró administración.</p>
       </div>
 
       {data.payments.length === 0 ? (
@@ -52,7 +52,7 @@ export function PortalPaymentsPage() {
                   <PaymentStatusBadge status={payment.status} />
                 </div>
 
-                <ul className="mt-3 flex flex-col gap-1 border-t border-line pt-3 text-[15px] text-ink-2">
+                <ul className="mt-3 flex flex-col gap-1 border-t border-line pt-3 text-[0.9375rem] text-ink-2">
                   {payment.items.map((item) => (
                     <li key={item.fee_id} className="flex justify-between gap-3">
                       <span>{describe(item.fee_id)}</span>

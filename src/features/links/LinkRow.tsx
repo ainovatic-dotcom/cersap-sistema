@@ -48,9 +48,9 @@ export function LinkRow({ link, showFamily = true }: { link: FamilyLinkItem; sho
       <div className="flex min-w-0 flex-1 items-center gap-3">
         <Avatar name={link.profile?.full_name ?? link.profile?.email} src={link.profile?.avatar_url} />
         <div className="min-w-0">
-          <p className="truncate text-[16px] font-bold text-ink">{link.profile?.full_name ?? 'Sin nombre'}</p>
+          <p className="truncate text-[1rem] font-bold text-ink">{link.profile?.full_name ?? 'Sin nombre'}</p>
           <p className="truncate text-sm text-ink-3">{link.profile?.email}</p>
-          <p className="mt-0.5 text-[13px] text-ink-3">
+          <p className="mt-0.5 text-[0.8125rem] text-ink-3">
             {showFamily && link.family && (
               <>
                 Pide ver a{' '}
@@ -114,7 +114,7 @@ export function LinkRow({ link, showFamily = true }: { link: FamilyLinkItem; sho
         confirmVariant={confirm?.danger ? 'danger' : 'success'}
         loading={setStatus.isPending}
       >
-        <p className="rounded-control bg-cancha px-3 py-2.5 text-[15px] font-medium text-ink">
+        <p className="rounded-control bg-cancha px-3 py-2.5 text-[0.9375rem] font-medium text-ink">
           {link.profile?.full_name ?? 'Sin nombre'}
           <span className="block text-sm font-normal text-ink-3">{link.profile?.email}</span>
         </p>

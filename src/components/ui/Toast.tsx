@@ -42,14 +42,14 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <div
         aria-live="polite"
-        className="pointer-events-none fixed inset-x-0 bottom-24 z-50 flex flex-col items-center gap-2 px-4 md:bottom-6"
+        className="aviso-flotante pointer-events-none fixed inset-x-0 z-50 flex flex-col items-center gap-2 px-4"
       >
         {items.map((item) => (
           <div
             key={item.id}
             role={item.kind === 'error' ? 'alert' : 'status'}
             className={cn(
-              'toast pointer-events-auto flex max-w-md items-start gap-2.5 rounded-control px-4 py-3 text-[15px] font-medium text-white shadow-float',
+              'toast pointer-events-auto flex max-w-md items-start gap-2.5 rounded-control px-4 py-3 text-[0.9375rem] font-medium text-white shadow-float',
               item.kind === 'error' ? 'bg-rojo-700' : 'bg-noche-900',
             )}
           >

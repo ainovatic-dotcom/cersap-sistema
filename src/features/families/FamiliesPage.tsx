@@ -69,7 +69,7 @@ export function FamiliesPage() {
                   <Link to={`/admin/familias/${family.id}`} className="flex items-center gap-3.5 px-4 py-3.5 transition-colors hover:bg-cancha md:px-5">
                     <div className="min-w-0 flex-1 md:grid md:grid-cols-[1.2fr_1.4fr] md:items-center md:gap-4">
                       <div className="min-w-0">
-                        <p className="truncate text-[16px] font-bold text-ink">{family.name}</p>
+                        <p className="truncate text-[1rem] font-bold text-ink">{family.name}</p>
                         <p className="truncate text-sm text-ink-3">
                           {family.guardians.length > 0 ? family.guardians.map((g) => g.full_name).join(', ') : 'Sin tutores cargados'}
                         </p>

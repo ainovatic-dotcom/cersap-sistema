@@ -8,7 +8,7 @@ type MoneyProps = {
   className?: string
 }
 
-const SIZES = { md: 'text-[24px]', lg: 'text-[36px]', xl: 'text-[52px]', hero: 'text-[60px] md:text-[76px]' }
+const SIZES = { md: 'text-[1.5rem]', lg: 'text-[2.25rem]', xl: 'text-[3.25rem]', hero: 'text-[3.75rem] md:text-[4.75rem]' }
 
 /**
  * Monto destacado, con el "Gs." chico al lado. Hereda el color del contenedor

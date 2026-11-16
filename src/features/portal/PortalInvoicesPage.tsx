@@ -11,8 +11,8 @@ export function PortalInvoicesPage() {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h1 className="display text-[30px] text-ink">Facturas</h1>
-        <p className="mt-1 text-[15px] text-ink-2">Descargá en PDF las facturas de tus pagos.</p>
+        <h1 className="display text-[1.875rem] text-ink">Facturas</h1>
+        <p className="mt-1 text-[0.9375rem] text-ink-2">Descargá en PDF las facturas de tus pagos.</p>
       </div>
 
       {data.invoices.length === 0 ? (
@@ -30,7 +30,7 @@ export function PortalInvoicesPage() {
                   <FileText aria-hidden="true" className="size-5" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[16px] font-bold text-ink">Factura {invoice.number}</p>
+                  <p className="truncate text-[1rem] font-bold text-ink">Factura {invoice.number}</p>
                   <p className="text-sm text-ink-3">
                     {formatDate(invoice.issued_on)}, {formatMoney(invoice.amount)}
                   </p>

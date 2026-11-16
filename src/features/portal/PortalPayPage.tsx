@@ -17,6 +17,7 @@ import {
   useToast,
 } from '@/components/ui'
 import { feeLabel, formatDate, formatMoney, todayIso } from '@/lib/format'
+import { haptic, useOnline } from '@/lib/pwa'
 import { payableAmount, useSubmitPayment } from './api'
 import { usePortalData } from './PortalGate'
 
@@ -29,6 +30,7 @@ export function PortalPayPage() {
   const toast = useToast()
   const data = usePortalData()
   const submit = useSubmitPayment()
+  const online = useOnline()
 
   const [familyId, setFamilyId] = useState(data.families[0]?.id ?? '')
   const payable = useMemo(
@@ -69,6 +71,7 @@ export function PortalPayPage() {
     if (!receipt || selected.length === 0) return
     try {
       await submit.mutateAsync({ familyId, feeIds: selected.map((fee) => fee.id), paidOn, receipt })
+      haptic('success')
       toast.success('Pago informado. Administración lo va a revisar.')
       navigate('/portal/pagos')
     } catch {
@@ -97,8 +100,8 @@ export function PortalPayPage() {
   return (
     <form onSubmit={(event) => void handleSubmit(event)} className="flex flex-col gap-5">
       <div>
-        <h1 className="display text-[30px] text-ink">Informar un pago</h1>
-        <p className="mt-1 text-[15px] text-ink-2">
+        <h1 className="display text-[1.875rem] text-ink">Informar un pago</h1>
+        <p className="mt-1 text-[0.9375rem] text-ink-2">
           Hacé la transferencia como siempre y después subí acá la foto del comprobante.
         </p>
       </div>
@@ -117,20 +120,21 @@ export function PortalPayPage() {
 
       <Step number={1} title="Marcá lo que pagaste">
         {payable.length === 0 ? (
-          <p className="text-[15px] text-ink-3">Esta familia no tiene cuotas para informar.</p>
+          <p className="text-[0.9375rem] text-ink-3">Esta familia no tiene cuotas para informar.</p>
         ) : (
           <ul className="flex flex-col gap-1">
             {payable.map((fee) => (
-              <li key={fee.id} className="rounded-control px-2 py-2.5 hover:bg-cancha">
+              <li key={fee.id} className="rounded-control hover:bg-cancha">
                 <Checkbox
+                  className="min-h-12 px-2 py-2.5"
                   checked={!unchecked.has(fee.id)}
                   onChange={() => toggle(fee.id)}
                   label={
-                    <span className="flex items-baseline justify-between gap-3">
+                    <span className="flex flex-wrap items-baseline justify-between gap-x-3">
                       <span>
                         {feeLabel(fee)}, {childName(fee.student_id)}
                       </span>
-                      <span className="tabular shrink-0 font-bold">{formatMoney(payableAmount(fee))}</span>
+                      <span className="tabular ml-auto shrink-0 font-bold">{formatMoney(payableAmount(fee))}</span>
                     </span>
                   }
                   description={
@@ -163,7 +167,7 @@ export function PortalPayPage() {
         {/* Formato recibo: etiqueta apagada a la izquierda, monto a la derecha, total aparte */}
         <div className="rounded-control border border-dashed border-line-strong bg-cancha/60 px-4 py-3">
           {selected.length === 0 ? (
-            <p className="py-1.5 text-[15px] text-ink-3">Marcá al menos una cuota.</p>
+            <p className="py-1.5 text-[0.9375rem] text-ink-3">Marcá al menos una cuota.</p>
           ) : (
             selected.map((fee) => (
               <ReceiptRow
@@ -179,11 +183,18 @@ export function PortalPayPage() {
         </div>
         <div className="mt-4 flex flex-col gap-3">
           <FormError error={submit.error} />
+          {(!online || submit.isPaused) && (
+            <p role="status" className="rounded-control bg-ambar-50 px-3.5 py-2.5 text-[0.9375rem] text-ambar-800">
+              {submit.isPaused
+                ? 'Esperando señal para enviar. Se manda solo cuando vuelva: no cierres la app.'
+                : 'No hay señal. Si tocás Informar pago, se envía solo cuando vuelva.'}
+            </p>
+          )}
           <Button type="submit" size="lg" block loading={submit.isPending} disabled={!receipt || selected.length === 0 || !paidOn}>
             Informar pago
           </Button>
-          {!receipt && selected.length > 0 && <p className="text-center text-[13px] text-ink-3">Falta subir el comprobante.</p>}
-          <p className="text-center text-[13px] text-ink-3">Queda en revisión hasta que administración confirme la transferencia.</p>
+          {!receipt && selected.length > 0 && <p className="text-center text-[0.8125rem] text-ink-3">Falta subir el comprobante.</p>}
+          <p className="text-center text-[0.8125rem] text-ink-3">Queda en revisión hasta que administración confirme la transferencia.</p>
         </div>
       </Step>
     </form>
@@ -195,8 +206,8 @@ function Step({ number, title, children }: { number: number; title: string; chil
   return (
     <Card className="p-4">
       <h2 className="mb-3 flex items-center gap-2.5">
-        <span className="dorsal flex size-9 shrink-0 items-center justify-center rounded-full bg-noche-900 text-[20px] text-white">{number}</span>
-        <span className="display text-[22px] text-ink">{title}</span>
+        <span className="dorsal flex size-9 shrink-0 items-center justify-center rounded-full bg-noche-900 text-[1.25rem] text-white">{number}</span>
+        <span className="display text-[1.375rem] text-ink">{title}</span>
       </h2>
       {children}
     </Card>

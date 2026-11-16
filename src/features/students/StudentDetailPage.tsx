@@ -87,7 +87,7 @@ export function StudentDetailPage() {
           <div className="flex items-center gap-4">
             <Avatar name={fullName} src={photoUrl} size="lg" />
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[15px] text-ink-2">
+              <p className="truncate text-[0.9375rem] text-ink-2">
                 {[data.discipline, age !== null ? `${age} años` : null].filter(Boolean).join(', ') || 'Sin disciplina'}
               </p>
               <div className="mt-1.5">
@@ -141,7 +141,7 @@ export function StudentDetailPage() {
                     .filter(Boolean)
                     .join(', ')}
               {(data.exempt_reason || data.discount_reason) && (
-                <span className="block text-[13px] font-normal text-ink-3">{data.exempt_reason ?? data.discount_reason}</span>
+                <span className="block text-[0.8125rem] font-normal text-ink-3">{data.exempt_reason ?? data.discount_reason}</span>
               )}
             </DataRow>
           </dl>
@@ -162,8 +162,8 @@ export function StudentDetailPage() {
                 {guardians.map((guardian) => (
                   <li key={guardian.id} className="flex items-center gap-3">
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[15px] font-semibold text-ink">{guardian.full_name}</p>
-                      <p className="truncate text-[13px] text-ink-3">
+                      <p className="truncate text-[0.9375rem] font-semibold text-ink">{guardian.full_name}</p>
+                      <p className="truncate text-[0.8125rem] text-ink-3">
                         {RELATIONSHIP[guardian.relationship]}
                         {guardian.phone ? `, ${formatPhone(guardian.phone)}` : ''}
                       </p>

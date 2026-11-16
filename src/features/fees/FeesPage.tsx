@@ -165,7 +165,7 @@ export function FeesPage() {
                   >
                     <span className="block h-full rounded-full bg-verde-600" style={{ width: `${progress}%` }} />
                   </div>
-                  <p className="mt-2 text-[13px] text-ink-3">
+                  <p className="mt-2 text-[0.8125rem] text-ink-3">
                     Se cobró el <span className="tabular font-bold text-ink">{progress} %</span> de lo que se factura en{' '}
                     {monthName(month).toLowerCase()}.
                   </p>
@@ -222,9 +222,9 @@ export function FeesPage() {
               const canCharge = !fee.is_exempt && fee.balance > 0 && fee.pending_amount === 0
               const studentName = student ? `${student.first_name} ${student.last_name}` : 'Alumno'
               return (
-                <li key={fee.id} className="flex flex-col gap-2 px-4 py-3 md:flex-row md:items-center md:gap-4 md:px-5">
+                <li key={fee.id} className="flex flex-col gap-2 px-4 py-3 md:px-5 lg:flex-row lg:items-center lg:gap-4">
                   <div className="min-w-0 flex-1">
-                    <Link to={`/admin/alumnos/${fee.student_id}`} className="text-[16px] font-bold text-ink hover:text-brand-700 hover:underline">
+                    <Link to={`/admin/alumnos/${fee.student_id}`} className="text-[1rem] font-bold text-ink hover:text-brand-700 hover:underline">
                       {student ? `${student.last_name}, ${student.first_name}` : 'Alumno'}
                     </Link>
                     <p className="truncate text-sm text-ink-3">
@@ -233,18 +233,18 @@ export function FeesPage() {
                       {`, vence el ${formatDate(fee.due_date)}`}
                     </p>
                   </div>
-                  <div className="flex items-center justify-between gap-3 md:justify-end">
-                    <div className="shrink-0 md:text-right">
-                      <p className="tabular text-[16px] font-bold text-ink">{formatMoney(fee.amount)}</p>
+                  <div className="flex items-center justify-between gap-3 lg:justify-end">
+                    <div className="shrink-0 lg:text-right">
+                      <p className="tabular text-[1rem] font-bold text-ink">{formatMoney(fee.amount)}</p>
                       {fee.paid_amount > 0 && fee.balance > 0 && (
-                        <p className="tabular text-[13px] text-ink-3">Falta {formatMoney(fee.balance)}</p>
+                        <p className="tabular text-[0.8125rem] text-ink-3">Falta {formatMoney(fee.balance)}</p>
                       )}
                     </div>
-                    <span className="flex shrink-0 md:w-[108px]">
+                    <span className="flex shrink-0 lg:w-[108px]">
                       <FeeStateBadge state={fee.state} />
                     </span>
                   </div>
-                  <div className="flex shrink-0 items-center gap-2 md:w-[212px] md:justify-end">
+                  <div className="flex shrink-0 items-center gap-2 md:w-[212px] lg:justify-end">
                     {fee.pending_amount > 0 && (
                       <ButtonLink to="/admin/pagos" variant="secondary" size="sm">
                         Verificar pago

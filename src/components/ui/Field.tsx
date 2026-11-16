@@ -45,7 +45,7 @@ export function Field({ label, hint, error, optional, className, children }: Fie
       </label>
       {children({ id, 'aria-describedby': help ? helpId : undefined, 'aria-invalid': error ? true : undefined })}
       {help && (
-        <p id={helpId} className={cn('text-[13px] leading-snug', error ? 'font-medium text-rojo-700' : 'text-ink-3')}>
+        <p id={helpId} className={cn('text-[0.8125rem] leading-snug', error ? 'font-medium text-rojo-700' : 'text-ink-3')}>
           {help}
         </p>
       )}
@@ -128,8 +128,8 @@ export function Checkbox({ label, description, className, ...rest }: CheckboxPro
     <label className={cn('flex cursor-pointer items-start gap-3', className)}>
       <input type="checkbox" className="mt-0.5 size-5 shrink-0 cursor-pointer rounded accent-brand-600" {...rest} />
       <span className="min-w-0 flex-1">
-        <span className="block text-[15px] font-medium text-ink">{label}</span>
-        {description && <span className="block text-[13px] text-ink-3">{description}</span>}
+        <span className="block text-[0.9375rem] font-medium text-ink">{label}</span>
+        {description && <span className="block text-[0.8125rem] text-ink-3">{description}</span>}
       </span>
     </label>
   )

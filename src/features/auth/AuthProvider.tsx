@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase/client'
+import { isNetworkError } from '@/lib/errors'
 import type { Profile } from '@/types/domain'
 
 type AuthContextValue = {
@@ -11,6 +12,9 @@ type AuthContextValue = {
   /** true mientras se resuelve la sesión o el perfil */
   loading: boolean
   profileError: unknown
+  /** true si el perfil no se pudo leer por falta de conexión (se reintenta solo al volver la señal) */
+  profileOffline: boolean
+  retryProfile: () => void
   signInWithGoogle: () => Promise<void>
   signOut: () => Promise<void>
 }
@@ -40,9 +44,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(next)
       setSessionLoading(false)
     })
+    // En la app instalada de Android, entrar con Google puede terminar en otra
+    // ventana del navegador. Al volver a la app se vuelve a leer la sesión guardada.
+    const onVisible = () => {
+      if (document.visibilityState !== 'visible') return
+      void supabase.auth.getSession().then(({ data: current }) => {
+        if (active) setSession((previous) => (previous?.access_token === current.session?.access_token ? previous : current.session))
+      })
+    }
+    document.addEventListener('visibilitychange', onVisible)
     return () => {
       active = false
       data.subscription.unsubscribe()
+      document.removeEventListener('visibilitychange', onVisible)
     }
   }, [])
 
@@ -81,12 +95,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     () => ({
       session,
       profile: profileQuery.data ?? null,
-      loading: sessionLoading || (Boolean(userId) && profileQuery.isPending),
+      // Sin conexión la consulta queda en pausa: no es "cargando", es "esperando señal"
+      loading: sessionLoading || (Boolean(userId) && profileQuery.isPending && profileQuery.fetchStatus !== 'paused'),
       profileError: profileQuery.error,
+      profileOffline: profileQuery.fetchStatus === 'paused' || isNetworkError(profileQuery.error),
+      retryProfile: () => void profileQuery.refetch(),
       signInWithGoogle,
       signOut,
     }),
-    [session, profileQuery.data, profileQuery.isPending, profileQuery.error, sessionLoading, userId, signInWithGoogle, signOut],
+    [session, profileQuery, sessionLoading, userId, signInWithGoogle, signOut],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

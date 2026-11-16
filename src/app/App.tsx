@@ -1,7 +1,10 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FullPageLoading, ToastProvider } from '@/components/ui'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { OfflineBanner } from '@/components/pwa/OfflineBanner'
+import { UpdatePrompt } from '@/components/pwa/UpdatePrompt'
 import { AuthProvider } from '@/features/auth/AuthProvider'
 import { HomeRedirect, RequireAdmin, RequireSession } from '@/features/auth/guards'
 import { LoginPage } from '@/features/auth/LoginPage'
@@ -12,6 +15,10 @@ import { LinkChildPage } from '@/features/linking/LinkChildPage'
 // nunca baja el código de administración.
 const AdminRoutes = lazy(() => import('./AdminRoutes'))
 const PortalRoutes = lazy(() => import('./PortalRoutes'))
+
+// TanStack Query supone que hay conexión al arrancar. Si la app se abre sin señal,
+// así pausa las consultas en vez de reintentar durante varios segundos.
+onlineManager.setOnline(navigator.onLine)
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,8 +44,11 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ToastProvider>
+        <OfflineBanner />
+        <UpdatePrompt />
         <BrowserRouter>
           <AuthProvider>
+            <ErrorBoundary>
             <Suspense fallback={<FullPageLoading />}>
               <Routes>
                 <Route path="/ingresar" element={<LoginPage />} />
@@ -80,6 +90,7 @@ export function App() {
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Suspense>
+            </ErrorBoundary>
           </AuthProvider>
         </BrowserRouter>
       </ToastProvider>

@@ -57,7 +57,7 @@ export function Tabs<T extends string>({ items, value, onChange, label, classNam
             aria-selected={selected}
             onClick={() => onChange(item.value)}
             className={cn(
-              'relative z-10 flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-[9px] px-3.5 text-sm font-semibold transition-colors duration-150',
+              'relative z-10 flex h-9 shrink-0 items-center gap-2 whitespace-nowrap rounded-[9px] px-3.5 text-sm font-semibold transition-colors duration-150 pointer-coarse:h-11',
               selected ? 'text-ink' : 'text-ink-2 hover:text-ink',
             )}
           >

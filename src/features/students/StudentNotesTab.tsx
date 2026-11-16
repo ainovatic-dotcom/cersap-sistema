@@ -80,16 +80,16 @@ export function StudentNotesTab({ studentId }: { studentId: string }) {
                 <Card className={cn('p-4', isCorrected && 'bg-cancha')}>
                   <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                     <p className="text-sm font-semibold text-ink">{note.author?.full_name ?? note.author?.email ?? 'Administración'}</p>
-                    <time dateTime={note.created_at} className="tabular text-[13px] text-ink-3">
+                    <time dateTime={note.created_at} className="tabular text-[0.8125rem] text-ink-3">
                       {formatDateTime(note.created_at)}
                     </time>
                   </div>
                   {original && (
-                    <p className="mt-1 text-[13px] font-medium text-brand-700">Corrige la observación del {formatDateTime(original.created_at)}</p>
+                    <p className="mt-1 text-[0.8125rem] font-medium text-brand-700">Corrige la observación del {formatDateTime(original.created_at)}</p>
                   )}
-                  <p className={cn('mt-2 whitespace-pre-wrap text-[15px] text-ink', isCorrected && 'text-ink-3 line-through')}>{note.body}</p>
+                  <p className={cn('mt-2 whitespace-pre-wrap text-[0.9375rem] text-ink', isCorrected && 'text-ink-3 line-through')}>{note.body}</p>
                   {isCorrected ? (
-                    <p className="mt-2 text-[13px] font-semibold text-ink-3">Corregida. La versión nueva está más arriba.</p>
+                    <p className="mt-2 text-[0.8125rem] font-semibold text-ink-3">Corregida. La versión nueva está más arriba.</p>
                   ) : (
                     <Button variant="ghost" size="sm" className="-ml-2 mt-1" onClick={() => setCorrecting(note)}>
                       Corregir

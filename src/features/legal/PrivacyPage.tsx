@@ -8,7 +8,7 @@ import { ArrowLeft } from 'lucide-react'
  */
 export function PrivacyPage() {
   return (
-    <div className="min-h-dvh bg-cancha">
+    <div className="min-h-dvh bg-cancha pt-safe">
       <div className="cinta" />
       <main className="mx-auto max-w-[680px] px-5 py-10 md:py-14">
         <Link to="/ingresar" className="mb-6 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-brand-700 hover:underline">
@@ -16,12 +16,12 @@ export function PrivacyPage() {
           Volver al ingreso
         </Link>
         <div className="flex items-center gap-3">
-          <img src="/escudo-192.png" alt="" className="size-12" />
-          <h1 className="display text-[34px] text-ink md:text-[42px]">Política de privacidad</h1>
+          <img src="/escudo-96.webp" srcSet="/escudo-96.webp 96w, /escudo-192.webp 192w" sizes="48px" width="96" height="96" alt="" className="size-12" />
+          <h1 className="display text-[2.125rem] text-ink md:text-[2.625rem]">Política de privacidad</h1>
         </div>
-        <p className="mt-3 text-[15px] text-ink-3">Última actualización: 16 de noviembre de 2026.</p>
+        <p className="mt-3 text-[0.9375rem] text-ink-3">Última actualización: 16 de noviembre de 2026.</p>
 
-        <div className="mt-8 flex flex-col gap-7 text-[15px] leading-relaxed text-ink-2">
+        <div className="mt-8 flex flex-col gap-7 text-[0.9375rem] leading-relaxed text-ink-2">
           <Block title="Quiénes somos">
             Este sistema es del Centro de Entrenamiento Región Sur, Alto Paraná (CERSAP), en Paraguay. Lo usamos para llevar las fichas de los
             alumnos, las cuotas y los pagos, y para que cada familia vea lo de sus hijos.
@@ -72,7 +72,7 @@ export function PrivacyPage() {
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section>
-      <h2 className="display mb-1.5 text-[21px] text-ink">{title}</h2>
+      <h2 className="display mb-1.5 text-[1.3125rem] text-ink">{title}</h2>
       <p>{children}</p>
     </section>
   )

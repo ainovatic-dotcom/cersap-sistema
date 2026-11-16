@@ -44,17 +44,20 @@ export function StateBar({ segments, title, note, className }: StateBarProps) {
       </div>
       <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3">
         {segments.map((segment) => (
-          <li key={segment.key} className="flex items-center gap-2.5">
-            <span aria-hidden="true" className="size-3 shrink-0 rounded-[4px]" style={{ background: segment.color }} />
-            <span className="min-w-0 whitespace-nowrap text-sm text-ink-2">
-              {segment.label}
-              <span className="tabular ml-1.5 font-bold text-ink">{segment.count}</span>
-              {total > 0 && <span className="tabular ml-1 text-ink-3">({Math.round((segment.count / total) * 100)} %)</span>}
+          <li key={segment.key} className="flex items-start gap-2.5">
+            <span aria-hidden="true" className="mt-1 size-3 shrink-0 rounded-[4px]" style={{ background: segment.color }} />
+            <span className="min-w-0 text-sm text-ink-2">
+              {segment.label}{' '}
+              {/* La cantidad y el porcentaje no se separan: si no entra, baja la línea entera */}
+              <span className="whitespace-nowrap">
+                <span className="tabular font-bold text-ink">{segment.count}</span>
+                {total > 0 && <span className="tabular ml-1 text-ink-3">({Math.round((segment.count / total) * 100)} %)</span>}
+              </span>
             </span>
           </li>
         ))}
       </ul>
-      {note && <p className="mt-3 text-[13px] text-ink-3">{note}</p>}
+      {note && <p className="mt-3 text-[0.8125rem] text-ink-3">{note}</p>}
     </figure>
   )
 }

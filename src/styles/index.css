@@ -5,6 +5,9 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/archivo/wdth.css';
 
+/* Diseño de escritorio de administración: ancho y alto suficientes (un celular acostado no cuenta) */
+@custom-variant desk (@media (width >= 48rem) and (height >= 36rem));
+
 @theme {
   /* Tipografía: una sola familia. El ancho variable da el tono de camiseta. */
   --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -90,7 +93,7 @@
     background: var(--color-cancha);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 15px;
+    font-size: 0.9375rem;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: transparent;
@@ -100,14 +103,20 @@
   input,
   select,
   textarea {
-    font-size: 16px;
+    font-size: 1rem;
   }
-  @media (min-width: 768px) {
+  /* Solo con mouse: en pantallas táctiles quedan en 16 px para que el iPhone no haga zoom al tocarlos */
+  @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
     input,
     select,
     textarea {
-      font-size: 15px;
+      font-size: 0.9375rem;
     }
+  }
+  /* Al enfocar con Tab o al abrirse el teclado, nada queda debajo de las barras fijas */
+  html {
+    scroll-padding-top: calc(env(safe-area-inset-top) + 5rem);
+    scroll-padding-bottom: calc(env(safe-area-inset-bottom) + 6rem);
   }
 
   :focus-visible {
@@ -258,6 +267,21 @@
   .safe-bottom {
     padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   }
+  /* Zonas seguras: notch, isla dinámica y bordes curvos (viewport-fit=cover) */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  .top-safe {
+    top: env(safe-area-inset-top);
+  }
+  .px-safe {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  /* Avisos flotantes: siempre por encima de la barra inferior (el portal la tiene en todas las pantallas) */
+  .aviso-flotante {
+    bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
+  }
 
   .scrollbar-none {
     scrollbar-width: none;
@@ -321,8 +345,37 @@
     }
   }
 
+  /* Cambio de pantalla en el portal: entra la página nueva (se usa pocas veces al mes) */
+  .pagina {
+    animation: entrar-suave 280ms var(--ease-out) both;
+  }
+  /* Franja de "sin conexión": baja desde arriba */
+  .franja-aviso {
+    animation: bajar 320ms var(--ease-out) both;
+  }
+  @keyframes bajar {
+    from {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+  }
+  /* Píldora de la barra inferior del portal: se desliza a la sección nueva */
+  .nav-indicador {
+    transition:
+      transform 300ms var(--ease-in-out),
+      opacity 150ms ease;
+  }
+
   /* Reducir movimiento: se va el desplazamiento, queda la opacidad */
   @media (prefers-reduced-motion: reduce) {
+    .pagina,
+    .franja-aviso {
+      animation-name: aparecer;
+      animation-duration: 200ms;
+    }
+    .nav-indicador {
+      transition-property: opacity;
+    }
     .entrar,
     .entrar-suave {
       animation-name: aparecer;
@@ -343,5 +396,47 @@
     .tab-indicator {
       transition-property: opacity;
     }
+  }
+}
+
+/* ------------------------------------------------------------------ app en el celular */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  a,
+  button,
+  label,
+  summary,
+  [role='button'] {
+    touch-action: manipulation;
+  }
+}
+
+/* Abierta desde el ícono: comportamiento de app nativa */
+@media (display-mode: standalone) {
+  html,
+  body {
+    overscroll-behavior-y: none;
+  }
+  /* En iPhone la barra de estado es transparente: debajo va una franja noche fija */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: env(safe-area-inset-top);
+    background: var(--color-noche-900);
+    z-index: 60;
+    pointer-events: none;
+  }
+  /* Los textos de la interfaz no se seleccionan con un toque largo (los datos sí) */
+  nav,
+  button,
+  [role='tab'] {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
   }
 }

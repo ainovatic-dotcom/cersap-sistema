@@ -148,7 +148,7 @@ function RegisterPaymentForm({
           {fees.isPending ? (
             <Loading label="Buscando cuotas" />
           ) : payable.length === 0 ? (
-            <p className="rounded-control bg-verde-50 px-3 py-2.5 text-[15px] font-medium text-verde-700">
+            <p className="rounded-control bg-verde-50 px-3 py-2.5 text-[0.9375rem] font-medium text-verde-700">
               Esta familia no tiene cuotas pendientes.
             </p>
           ) : (
@@ -179,7 +179,7 @@ function RegisterPaymentForm({
               })}
             </ul>
           )}
-          {overBalance && <p className="mt-1.5 text-[13px] font-medium text-rojo-700">Un monto supera el saldo de su cuota.</p>}
+          {overBalance && <p className="mt-1.5 text-[0.8125rem] font-medium text-rojo-700">Un monto supera el saldo de su cuota.</p>}
         </fieldset>
       )}
 
@@ -213,7 +213,7 @@ function RegisterPaymentForm({
       </Field>
 
       <div className="flex items-end justify-between rounded-control bg-cancha px-4 py-3">
-        <span className="text-[15px] font-semibold text-ink-2">Total</span>
+        <span className="text-[0.9375rem] font-semibold text-ink-2">Total</span>
         <Money value={total} size="lg" />
       </div>
 

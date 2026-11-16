@@ -92,7 +92,7 @@ export function StudentsPage() {
       </div>
 
       {onlyMissingDocuments && (
-        <div className="mb-4 flex flex-wrap items-center gap-2 rounded-control bg-ambar-50 px-3.5 py-2.5 text-[15px] font-medium text-ambar-800">
+        <div className="mb-4 flex flex-wrap items-center gap-2 rounded-control bg-ambar-50 px-3.5 py-2.5 text-[0.9375rem] font-medium text-ambar-800">
           <FileWarning aria-hidden="true" className="size-[18px]" />
           Se muestran solo los alumnos con documentos incompletos.
           <button type="button" className="font-bold underline" onClick={() => setSearchParams({})}>
@@ -140,10 +140,10 @@ export function StudentsPage() {
                     />
                     <div className="min-w-0 flex-1 md:grid md:grid-cols-[1.6fr_1fr_1.2fr] md:items-center md:gap-4">
                       <div className="min-w-0">
-                        <p className="truncate text-[15px] font-semibold text-ink">
+                        <p className="line-clamp-2 text-[0.9375rem] font-semibold leading-snug text-ink md:truncate">
                           {student.last_name}, {student.first_name}
                         </p>
-                        <p className="tabular truncate text-[13px] text-ink-3">
+                        <p className="tabular truncate text-[0.8125rem] text-ink-3">
                           <span className="md:hidden">{student.discipline ? `${student.discipline}, ` : ''}</span>
                           <span className="hidden md:inline">CI {formatCi(student.ci)}, </span>
                           {age !== null && `${age} años`}

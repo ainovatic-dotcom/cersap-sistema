@@ -156,7 +156,7 @@ function DisciplinesSection({ settings }: { settings: Settings }) {
     <Section title="Disciplinas" description="Las opciones que aparecen al cargar un alumno.">
       <ul className="mb-4 flex flex-wrap gap-2">
         {settings.disciplines.map((item) => (
-          <li key={item} className="flex items-center gap-1 rounded-full border border-line-strong bg-surface py-1 pl-3.5 pr-1 text-[15px] font-semibold text-ink">
+          <li key={item} className="flex items-center gap-1 rounded-full border border-line-strong bg-surface py-1 pl-3.5 pr-1 text-[0.9375rem] font-semibold text-ink">
             {item}
             <button
               type="button"
@@ -214,7 +214,7 @@ function AdminsSection() {
         <ul className="mb-4 divide-y divide-line rounded-control border border-line">
           {admins.data.map((admin) => (
             <li key={admin.email} className="flex items-center gap-3 px-3.5 py-2.5">
-              <p className="min-w-0 flex-1 truncate text-[15px] font-semibold text-ink">{admin.email}</p>
+              <p className="min-w-0 flex-1 truncate text-[0.9375rem] font-semibold text-ink">{admin.email}</p>
               {admin.email === profile?.email ? (
                 <Badge tone="azul">Sos vos</Badge>
               ) : (

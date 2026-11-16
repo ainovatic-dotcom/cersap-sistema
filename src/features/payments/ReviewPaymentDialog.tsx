@@ -130,13 +130,13 @@ function ReviewPaymentContent({ payment, onClose }: { payment: PaymentListItem; 
           <DataRow label="Forma de pago">{PAYMENT_METHOD[payment.method]}</DataRow>
           <DataRow label={payment.submitted_via === 'portal' ? 'Lo informó' : 'Lo registró'}>
             {payment.submitter?.full_name ?? payment.submitter?.email ?? 'Sin dato'}
-            <span className="block text-[13px] font-normal text-ink-3">{formatDateTime(payment.created_at)}</span>
+            <span className="block text-[0.8125rem] font-normal text-ink-3">{formatDateTime(payment.created_at)}</span>
           </DataRow>
           {payment.note && <DataRow label="Nota">{payment.note}</DataRow>}
           {payment.reviewed_at && (
             <DataRow label="Revisado">
               {payment.reviewer?.full_name ?? payment.reviewer?.email ?? 'Administración'}
-              <span className="block text-[13px] font-normal text-ink-3">{formatDateTime(payment.reviewed_at)}</span>
+              <span className="block text-[0.8125rem] font-normal text-ink-3">{formatDateTime(payment.reviewed_at)}</span>
             </DataRow>
           )}
           {payment.rejection_reason && <DataRow label="Motivo">{payment.rejection_reason}</DataRow>}
@@ -149,8 +149,8 @@ function ReviewPaymentContent({ payment, onClose }: { payment: PaymentListItem; 
             {payment.items.map((item) => (
               <li key={item.id} className="flex flex-col gap-2 px-3 py-2.5 sm:flex-row sm:items-center">
                 <div className="min-w-0 flex-1">
-                  <p className="text-[15px] font-semibold text-ink">{item.fee ? feeLabel(item.fee) : 'Cuota'}</p>
-                  <p className="text-[13px] text-ink-3">
+                  <p className="text-[0.9375rem] font-semibold text-ink">{item.fee ? feeLabel(item.fee) : 'Cuota'}</p>
+                  <p className="text-[0.8125rem] text-ink-3">
                     {item.fee?.student ? `${item.fee.student.first_name} ${item.fee.student.last_name}` : ''}
                   </p>
                 </div>
@@ -168,12 +168,12 @@ function ReviewPaymentContent({ payment, onClose }: { payment: PaymentListItem; 
               </li>
             ))}
             <li className="flex items-end justify-between border-t border-dashed border-line-strong bg-cancha px-3 py-3">
-              <span className="text-[15px] font-bold text-ink">Total</span>
+              <span className="text-[0.9375rem] font-bold text-ink">Total</span>
               <Money value={isPending ? total : payment.amount} size="lg" />
             </li>
           </ul>
           {isPending && (
-            <p className="mt-1.5 text-[13px] text-ink-3">
+            <p className="mt-1.5 text-[0.8125rem] text-ink-3">
               Si la transferencia fue por otro monto, corregilo acá antes de confirmar.
             </p>
           )}
@@ -216,7 +216,7 @@ function ReviewPaymentContent({ payment, onClose }: { payment: PaymentListItem; 
             {!payment.invoice && (
               <Link
                 to={`/admin/facturas?familia=${payment.family_id}&pago=${payment.id}`}
-                className="inline-flex h-11 items-center justify-center rounded-control border-[1.5px] border-line-strong px-4 text-[15px] font-semibold text-ink hover:bg-cancha"
+                className="inline-flex h-11 items-center justify-center rounded-control border-[1.5px] border-line-strong px-4 text-[0.9375rem] font-semibold text-ink hover:bg-cancha"
               >
                 Cargar factura
               </Link>

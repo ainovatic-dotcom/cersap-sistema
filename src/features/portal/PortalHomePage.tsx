@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 import { CircleCheck, Clock, Plus, Upload } from 'lucide-react'
 import { Badge, ButtonLink, Card, Money, StudentRow, SummaryCard, WhatsAppLink } from '@/components/ui'
+import { InstallCard } from '@/components/pwa/InstallCard'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { ageFrom, formatMoney } from '@/lib/format'
 import { useSignedUrls } from '@/lib/storage'
@@ -42,15 +43,15 @@ export function PortalHomePage() {
   return (
     <div className="flex flex-col gap-6">
       <div className={intro ? 'entrar' : undefined}>
-        <h1 className="display mb-4 text-[34px] text-ink">{firstName ? `Hola, ${firstName}` : 'Hola'}</h1>
+        <h1 className="display mb-4 text-[2.125rem] text-ink">{firstName ? `Hola, ${firstName}` : 'Hola'}</h1>
 
         {/* Lo primero que quiere saber una familia: cuánto debe y cómo pagarlo */}
         <SummaryCard>
           {totalOwed > 0 ? (
             <div className="p-5">
-              <p className="text-[15px] text-ink-2">Te falta pagar</p>
+              <p className="text-[0.9375rem] text-ink-2">Te falta pagar</p>
               <Money value={totalOwed} size="xl" className="mt-1 text-ink" />
-              <p className="mt-2 text-[15px] text-ink">
+              <p className="mt-2 text-[0.9375rem] text-ink">
                 {owed.length === 1 ? '1 cuota' : `${owed.length} cuotas`}
                 {overdueCount > 0 && (
                   <span className="font-semibold text-rojo-600">
@@ -78,8 +79,8 @@ export function PortalHomePage() {
                 <CircleCheck aria-hidden="true" className="size-7" />
               </span>
               <div>
-                <p className="display text-[25px] text-ink">Estás al día</p>
-                <p className="text-[15px] text-ink-3">No tenés cuotas pendientes. ¡Gracias!</p>
+                <p className="display text-[1.5625rem] text-ink">Estás al día</p>
+                <p className="text-[0.9375rem] text-ink-3">No tenés cuotas pendientes. ¡Gracias!</p>
               </div>
             </div>
           )}
@@ -88,7 +89,7 @@ export function PortalHomePage() {
 
       <section aria-labelledby="hijos">
         <div className="mb-3 flex items-center justify-between">
-          <h2 id="hijos" className="display text-[21px] text-ink">
+          <h2 id="hijos" className="display text-[1.3125rem] text-ink">
             {data.children.length === 1 ? 'Tu hijo en el centro' : 'Tus hijos en el centro'}
           </h2>
           <Link to="/vincular?agregar=1" className="-mr-2 inline-flex min-h-11 items-center gap-1 rounded-control px-2 text-sm font-semibold text-brand-700 hover:bg-brand-50">
@@ -112,8 +113,8 @@ export function PortalHomePage() {
                         <Badge>De baja</Badge>
                       ) : childOwed > 0 ? (
                         <span className="block leading-tight">
-                          <span className="tabular block text-[15px] font-semibold text-rojo-700">{formatMoney(childOwed)}</span>
-                          <span className="block text-[12px] text-ink-3">por pagar</span>
+                          <span className="tabular block text-[0.9375rem] font-semibold text-rojo-700">{formatMoney(childOwed)}</span>
+                          <span className="block text-[0.75rem] text-ink-3">por pagar</span>
                         </span>
                       ) : (
                         <Badge tone="verde">Al día</Badge>
@@ -126,6 +127,8 @@ export function PortalHomePage() {
           </ul>
         </Card>
       </section>
+
+      <InstallCard />
 
       <WhatsAppLink
         phone={data.org.whatsapp_phone}

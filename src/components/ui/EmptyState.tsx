@@ -18,8 +18,8 @@ export function EmptyState({ icon, title, children, action }: EmptyStateProps) {
       {icon && (
         <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-700 [&_svg]:size-6">{icon}</div>
       )}
-      <h3 className="display text-[21px] text-ink">{title}</h3>
-      {children && <p className="mt-2 max-w-sm text-[15px] text-ink-3">{children}</p>}
+      <h3 className="display text-[1.3125rem] text-ink">{title}</h3>
+      {children && <p className="mt-2 max-w-sm text-[0.9375rem] text-ink-3">{children}</p>}
       {action && <div className="mt-6">{action}</div>}
     </div>
   )
@@ -32,8 +32,8 @@ export function ErrorState({ error, onRetry }: { error: unknown; onRetry?: () =>
       <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-rojo-50 text-rojo-600 [&_svg]:size-6">
         <CircleAlert aria-hidden="true" className="size-7" />
       </div>
-      <h3 className="display text-[24px] text-ink">No se pudo cargar</h3>
-      <p className="mt-2 max-w-sm text-[15px] text-ink-3">{errorMessage(error)}</p>
+      <h3 className="display text-[1.5rem] text-ink">No se pudo cargar</h3>
+      <p className="mt-2 max-w-sm text-[0.9375rem] text-ink-3">{errorMessage(error)}</p>
       {onRetry && (
         <Button variant="secondary" className="mt-6" onClick={onRetry}>
           Reintentar

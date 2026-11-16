@@ -70,7 +70,7 @@ export function StyleGuidePage() {
         <Section title="Resumen" description="La cifra que importa en cada pantalla. Tarjeta blanca simple: lo que la distingue es el tamaño de la cifra.">
           <div className="grid gap-6 md:grid-cols-2">
             <div>
-              <p className="text-[15px] text-ink-2">Falta cobrar</p>
+              <p className="text-[0.9375rem] text-ink-2">Falta cobrar</p>
               <Money value={8450000} size="xl" className="mt-1 text-ink" />
               <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-line pt-4">
                 <SummaryStat label="Ya vencido" tone="rojo">3,2 M</SummaryStat>
@@ -122,7 +122,7 @@ export function StyleGuidePage() {
               <li key={color.name}>
                 <div className={`h-16 rounded-control ${color.className}`} />
                 <p className="mt-1.5 text-sm font-bold text-ink">{color.name}</p>
-                <p className="tabular text-[13px] text-ink-3">
+                <p className="tabular text-[0.8125rem] text-ink-3">
                   {color.hex}, {color.use}
                 </p>
               </li>
@@ -132,10 +132,10 @@ export function StyleGuidePage() {
 
         <Section title="Tipografía" description="Una sola familia, Archivo. Angosta y pesada para títulos y cifras; normal para leer.">
           <div className="flex flex-col gap-4">
-            <p className="display text-[36px] text-ink">Título de página</p>
-            <p className="display text-[22px] text-ink">Título de sección</p>
+            <p className="display text-[2.25rem] text-ink">Título de página</p>
+            <p className="display text-[1.375rem] text-ink">Título de sección</p>
             <Money value={1250000} size="xl" />
-            <p className="max-w-[60ch] text-[15px] text-ink-2">
+            <p className="max-w-[60ch] text-[0.9375rem] text-ink-2">
               Texto corrido. Frases cortas, en voseo, que digan qué pasa y qué puede hacer la persona. Los montos siempre con
               números tabulares: <span className="tabular font-semibold">Gs. 200.000</span>.
             </p>
@@ -283,7 +283,7 @@ export function StyleGuidePage() {
           <Card className="flex max-w-md items-center gap-3.5 p-3.5">
             <Avatar name="Ana Benítez" size="lg" square />
             <div className="min-w-0 flex-1">
-              <p className="text-[17px] font-bold text-ink">Ana Benítez</p>
+              <p className="text-[1.0625rem] font-bold text-ink">Ana Benítez</p>
               <p className="text-sm text-ink-3">11 años, Fútbol</p>
             </div>
             <Badge tone="verde">Al día</Badge>

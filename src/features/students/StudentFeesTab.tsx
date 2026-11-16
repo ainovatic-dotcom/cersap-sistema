@@ -76,16 +76,16 @@ export function StudentFeesTab({ studentId, familyId }: { studentId: string; fam
             {list.map((fee) => (
               <li key={fee.id} className="flex items-center gap-3 px-4 py-3 md:px-5">
                 <div className="min-w-0 flex-1">
-                  <p className="text-[15px] font-bold text-ink">{feeLabel(fee)}</p>
-                  <p className="text-[13px] text-ink-3">
+                  <p className="text-[0.9375rem] font-bold text-ink">{feeLabel(fee)}</p>
+                  <p className="text-[0.8125rem] text-ink-3">
                     Vence el {formatDate(fee.due_date)}
                     {fee.discount_amount > 0 && !fee.is_exempt && `, descuento de ${formatMoney(fee.discount_amount)}`}
                   </p>
                 </div>
                 <div className="shrink-0 text-right">
-                  <p className="tabular text-[15px] font-bold text-ink">{formatMoney(fee.amount)}</p>
+                  <p className="tabular text-[0.9375rem] font-bold text-ink">{formatMoney(fee.amount)}</p>
                   {fee.paid_amount > 0 && fee.balance > 0 && (
-                    <p className="tabular text-[13px] text-ink-3">Falta {formatMoney(fee.balance)}</p>
+                    <p className="tabular text-[0.8125rem] text-ink-3">Falta {formatMoney(fee.balance)}</p>
                   )}
                 </div>
                 <span className="flex w-[108px] shrink-0">

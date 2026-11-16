@@ -6,7 +6,7 @@ import json, sys
 from playwright.sync_api import sync_playwright
 
 def shoot(browser, name, path, who, viewport, portal_state=None, full=False, action=None):
-    ctx = browser.new_context(viewport=viewport, device_scale_factor=2 if viewport['width'] < 500 else 1, locale='es-PY', timezone_id='America/Asuncion')
+    ctx = browser.new_context(viewport=viewport, device_scale_factor=2 if viewport['width'] < 500 else 1, locale='es-PY', timezone_id='America/Asuncion', service_workers='block')
     page = ctx.new_page()
     errors = []
     page.on('console', lambda m: errors.append(m.text) if m.type == 'error' else None)

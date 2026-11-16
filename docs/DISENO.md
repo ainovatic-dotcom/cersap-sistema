@@ -214,7 +214,12 @@ Componentes: `Button`, `ButtonLink`, `IconButton` y `WhatsAppLink`.
 | Qué | Frecuencia | Movimiento | Curva y duración |
 |---|---|---|---|
 | Botones y todo lo que se toca | Constante | Se hunde a `scale(0.97)` | `--ease-out`, 160 ms |
-| Menú lateral y barra inferior | Constante | **Nada**, solo cambia el color | 150 ms |
+| Menú lateral y barra inferior de administración | Constante | **Nada**, solo cambia el color | 150 ms |
+| Barra inferior del portal | Pocas veces al mes | La píldora noche se desliza a la sección tocada | `--ease-in-out`, 300 ms |
+| Cambio de pantalla en el portal | Pocas veces al mes | La pantalla nueva entra con un fundido y sube 8 px | `--ease-out`, 280 ms |
+| Hoja en celular, al arrastrarla | Ocasional | Sigue al dedo; si se suelta lejos (más de 120 px) o rápido, se va hacia abajo; si no, vuelve | `--ease-drawer`, 320 ms |
+| Deslizar para actualizar (app instalada) | Ocasional | El círculo baja con resistencia y gira; al soltar pasado el umbral, gira mientras actualiza | `--ease-drawer`, 320 ms |
+| Aviso "Sin conexión" | Raro | Baja desde arriba | `--ease-out`, 320 ms |
 | Indicador de pestañas | Frecuente | Se desliza a la pestaña nueva | `--ease-in-out`, 260 ms |
 | Diálogo en celular | Ocasional | Sube desde abajo, como un cajón | `--ease-drawer` (iOS), 420 ms |
 | Diálogo en escritorio | Ocasional | De `scale(0.96)` y transparente a normal, desde el centro | `--ease-out`, 220 ms |
@@ -236,9 +241,33 @@ Reglas:
 - Solo se animan `transform`, `translate`, `scale` y `opacity`. La excepción es el ancho del indicador de pestañas, que es chico.
 - Hay una sola entrada por contenedor: si el resumen entra, su contenido ya está adentro.
 - Mientras algo se anima, todo se puede tocar igual.
-- Con **reducir movimiento** desaparece el desplazamiento y queda solo la opacidad. Los esqueletos dejan de brillar.
+- Con **reducir movimiento** desaparece el desplazamiento y queda solo la opacidad. Los esqueletos dejan de brillar y el celular no vibra.
 
 ---
+
+## 9 bis. App en el celular (PWA)
+
+La app se instala en el celular desde el navegador y se abre desde el ícono, a pantalla completa. Las familias la usan casi siempre así, con una mano y muchas veces con mala señal.
+
+| Tema | Decisión |
+|---|---|
+| Ícono | El escudo sobre fondo noche (`maskable`), para que Android lo recorte en círculo o en gota sin cortar el escudo. En iPhone, `apple-touch-icon` de 180 px |
+| Arranque | Android arma la pantalla de inicio con el fondo noche y el ícono. En iPhone hay 26 pantallas propias (`public/splash/`), una por modelo y orientación |
+| Barra de estado | Noche. En iPhone es transparente (`black-translucent`): una franja noche fija ocupa la zona del notch y los encabezados empiezan debajo (`.pt-safe`) |
+| Zonas seguras | Encabezados con `.pt-safe`, barras inferiores con `.safe-bottom`, costados con `max(1rem, env(safe-area-inset-left))` para el iPhone en horizontal |
+| Instalación | No se muestra la barrita automática de Chrome. En el inicio del portal hay una tarjeta "Instalá la app" (se puede posponer 30 días) y en el ingreso un enlace chico. Android: un toque. iPhone: guía de tres pasos. Dentro de Instagram o Facebook: "Copiar enlace" para abrirlo en el navegador |
+| Sin conexión | La app abre igual: el código, los estilos y las fuentes quedan guardados en el celular. Los **datos no se guardan** (son de las familias): una franja avisa "Sin conexión" y, al volver la señal, todo se actualiza solo |
+| Versiones nuevas | Nunca se recarga sola. Aparece "Hay una versión nueva de la app" con un botón Actualizar. Se busca cada hora y al volver a la app |
+| Gestos | Deslizar hacia abajo para actualizar (solo en la app instalada, porque el navegador ya tiene el suyo). Las hojas se bajan con el dedo desde el asa o el título |
+| Vibración | Corta, solo al confirmar algo importante (pago informado, hijo vinculado). Solo en Android: Safari no lo permite |
+| Teclado | Cédula con teclado numérico. En pantallas táctiles los campos quedan en 16 px, para que el iPhone no haga zoom (15 px solo con mouse) |
+| Letra del celular | Todos los tamaños de letra están en `rem` y la página declara `<meta name="text-scale">`: si la familia agranda la letra del celular, la app la agranda. Montos y nombres bajan de renglón antes de pisarse |
+| Zonas táctiles | 44 px como mínimo en pantallas táctiles: `Button size="sm"`, `IconButton` y las pestañas crecen solos con `pointer-coarse` |
+| Sin señal al abrir | Si hay sesión guardada y no hay señal, se ve "Sin conexión" con Reintentar, y se carga sola al volver. Nunca se pide cerrar sesión por falta de señal |
+| Celular acostado | La administración usa el diseño de escritorio solo con pantalla ancha **y** alta (variante `desk`); un celular acostado sigue con la barra inferior |
+| Diálogos largos | Los botones de los formularios en diálogos quedan pegados abajo (`DialogActions` es `sticky`): "Confirmar" siempre a la vista |
+| Arranque lento | `index.html` ya trae el escudo sobre noche dentro de `#root`: con 3G no se ve una pantalla vacía mientras baja el código |
+
 
 ## 10. Estructura de las pantallas
 

@@ -69,10 +69,10 @@ function DocumentCard({ document, onEditStatus }: { document: StudentDocument; o
       </span>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <p className="text-[16px] font-bold text-ink">{DOCUMENT_KIND[document.kind]}</p>
+          <p className="text-[1rem] font-bold text-ink">{DOCUMENT_KIND[document.kind]}</p>
           <DocumentStatusBadge status={document.status} />
         </div>
-        <p className="mt-0.5 truncate text-[13px] text-ink-3">
+        <p className="mt-0.5 truncate text-[0.8125rem] text-ink-3">
           {document.file_path
             ? `${document.file_name ?? 'Archivo'}, ${formatFileSize(document.size_bytes)}, subido el ${formatDateTime(document.uploaded_at)}`
             : 'Todavía no se subió ningún archivo.'}
@@ -92,7 +92,7 @@ function DocumentCard({ document, onEditStatus }: { document: StudentDocument; o
         )}
         <label
           className={
-            'inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-control px-3 text-[13px] font-semibold transition-colors focus-within:ring-3 focus-within:ring-brand-500/40 ' +
+            'inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-control px-3 text-[0.8125rem] font-semibold transition-colors focus-within:ring-3 focus-within:ring-brand-500/40 ' +
             (document.file_path
               ? 'border-[1.5px] border-line-strong bg-surface text-ink hover:bg-cancha'
               : 'btn-edge bg-brand-600 text-white hover:bg-brand-700') +

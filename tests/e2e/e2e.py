@@ -36,13 +36,18 @@ def png_bytes():
 
 
 class Session:
-    def __init__(self, browser, viewport, who=None, portal_state=None, link_result='pending', reduced=False):
+    def __init__(self, browser, viewport, who=None, portal_state=None, link_result='pending', reduced=False, user_agent=None, init=None):
         mobile = viewport['width'] < 500
         self.ctx = browser.new_context(
+            user_agent=user_agent,
             viewport=viewport, device_scale_factor=2 if mobile else 1, is_mobile=mobile, has_touch=mobile,
             locale='es-PY', timezone_id='America/Asuncion', reduced_motion='reduce' if reduced else 'no-preference',
+            # El service worker atendería los pedidos a Supabase y saltearía la red simulada
+            service_workers='block',
         )
         self.page = self.ctx.new_page()
+        if init:
+            self.page.add_init_script(init)
         self.log, self.errors, self.authorize = [], [], []
         self.page.on('console', lambda m: self.errors.append(m.text) if m.type == 'error' and 'Failed to load resource' not in m.text else None)
         self.page.on('pageerror', lambda e: self.errors.append(str(e)))
@@ -231,7 +236,8 @@ def t_students_views(browser, vp, device):
     rows.first.click()
     expect(s.page).to_have_url(BASE + '/admin/alumnos/' + sid(1))
     s.close()
-    assert max(heights) <= 80, heights
+    # En celular el nombre puede ocupar dos líneas (si no, se corta el nombre de pila)
+    assert max(heights) <= 96, heights
     return f'(búsqueda sin tildes, {count} filas de {min(heights)}-{max(heights)} px)'
 
 
@@ -367,6 +373,94 @@ def t_overflow(browser, vp, device):
     return '(sin desborde horizontal)'
 
 
+
+# --------------------------------------------------------------------------- app en el celular (PWA)
+
+IPHONE_UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'
+ANDROID_UA = 'Mozilla/5.0 (Linux; Android 14; SM-A146M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36'
+FAKE_PROMPT = """
+window.addEventListener('DOMContentLoaded', () => setTimeout(() => {
+  const e = new Event('beforeinstallprompt', { cancelable: true });
+  e.prompt = async () => { window.__prompted = true };
+  e.userChoice = Promise.resolve({ outcome: 'accepted' });
+  window.dispatchEvent(e);
+}, 50));
+"""
+
+
+def t_manifest(browser, vp, device):
+    s = Session(browser, vp)
+    s.go('/ingresar')
+    manifest = s.page.evaluate("fetch('/manifest.webmanifest').then(r => r.json())")
+    for key in ['id', 'name', 'short_name', 'start_url', 'display', 'theme_color', 'background_color', 'icons', 'shortcuts', 'screenshots']:
+        assert manifest.get(key), f'falta {key}'
+    purposes = {icon.get('purpose') for icon in manifest['icons']}
+    assert {'any', 'maskable'} <= purposes, purposes
+    statuses = s.page.evaluate("Promise.all(%s.map(u => fetch(u).then(r => r.status)))" % json.dumps([i['src'] for i in manifest['icons']] + [x['src'] for x in manifest['screenshots']]))
+    assert all(code == 200 for code in statuses), statuses
+    splash = s.page.locator('link[rel="apple-touch-startup-image"]').count()
+    s.close()
+    assert splash >= 30, splash
+    return f'({len(manifest["icons"])} íconos, {len(manifest["shortcuts"])} atajos, {splash} pantallas de arranque)'
+
+
+def t_install_android(browser, vp, device):
+    s = Session(browser, vp, TUTOR, {'linked': True}, user_agent=ANDROID_UA, init=FAKE_PROMPT)
+    s.go('/portal')
+    card = s.page.get_by_role('heading', name='Instalá la app en tu celular')
+    expect(card).to_be_visible()
+    s.page.get_by_role('button', name='Instalar', exact=True).click()
+    s.page.wait_for_function('window.__prompted === true')
+    expect(card).to_be_hidden()
+    s.close()
+    return '(aviso nativo y la tarjeta se va)'
+
+
+def t_install_ios(browser, vp, device):
+    s = Session(browser, vp, TUTOR, {'linked': True}, user_agent=IPHONE_UA)
+    s.go('/portal')
+    s.page.get_by_role('button', name='Cómo instalarla').click()
+    dialog = s.page.get_by_role('dialog')
+    expect(dialog.get_by_role('heading', name='Instalá la app en tu iPhone')).to_be_visible()
+    expect(dialog.locator('ol > li')).to_have_count(3)
+    dialog.get_by_role('button', name='Entendido').click()
+    s.page.get_by_role('button', name='Ahora no').click()
+    s.page.reload(wait_until='networkidle')
+    expect(s.page.get_by_role('heading', name='Instalá la app en tu celular')).to_be_hidden()
+    s.close()
+    return '(guía de 3 pasos y "Ahora no" se recuerda)'
+
+
+def t_offline_banner(browser, vp, device):
+    s = Session(browser, vp, TUTOR, {'linked': True})
+    s.go('/portal')
+    s.ctx.set_offline(True)
+    banner = s.page.get_by_role('status').filter(has_text='Sin conexión')
+    expect(banner).to_be_visible()
+    s.page.wait_for_timeout(450)  # termina de bajar
+    header_bottom = s.page.evaluate("document.querySelector('header').getBoundingClientRect().bottom")
+    banner_top = banner.bounding_box()['y']
+    logout_free = s.page.evaluate("""(() => { const b = document.querySelector('button[aria-label="Cerrar sesión"]'); const r = b.getBoundingClientRect();
+      return document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)?.closest('button') === b })()""")
+    s.ctx.set_offline(False)
+    expect(s.page.get_by_role('status').filter(has_text='Volvió la conexión')).to_be_visible()
+    s.close()
+    assert banner_top >= header_bottom - 1, (banner_top, header_bottom)
+    assert logout_free, 'la franja tapa "Cerrar sesión"'
+    return '(debajo del encabezado y sin bloquear botones)'
+
+
+def t_offline_session(browser, vp, device):
+    # Abre la app sin señal con la sesión guardada: no debe pedir cerrar sesión
+    s = Session(browser, vp, TUTOR, {'linked': True}, init="Object.defineProperty(navigator, 'onLine', { get: () => false })")
+    s.go('/portal')
+    expect(s.page.get_by_role('heading', name='Sin conexión')).to_be_visible()
+    expect(s.page.get_by_role('button', name='Reintentar')).to_be_visible()
+    expect(s.page.get_by_role('button', name='Cerrar sesión')).to_have_count(0)
+    s.close()
+    return '("Sin conexión" con Reintentar, sin cerrar sesión)'
+
+
 TESTS = [
     ('Ingreso con Google', t_login),
     ('Rutas protegidas sin sesión', t_protected_redirect),
@@ -385,6 +479,11 @@ TESTS = [
     ('Zonas táctiles del portal', t_small_targets),
     ('Movimiento reducido', t_reduced_motion),
     ('Sin desborde horizontal', t_overflow),
+    ('PWA: manifiesto e íconos', t_manifest),
+    ('PWA: instalar en Android', t_install_android),
+    ('PWA: guía de iPhone', t_install_ios),
+    ('PWA: franja sin conexión', t_offline_banner),
+    ('PWA: abrir sin señal con sesión', t_offline_session),
 ]
 
 with sync_playwright() as p:

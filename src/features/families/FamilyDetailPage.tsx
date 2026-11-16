@@ -99,7 +99,7 @@ export function FamilyDetailPage() {
             }
           >
             {data.guardians.length === 0 ? (
-              <p className="px-4 pb-4 text-[15px] text-ink-3 md:px-5 md:pb-5">
+              <p className="px-4 pb-4 text-[0.9375rem] text-ink-3 md:px-5 md:pb-5">
                 Cargá al menos un tutor con su celular para poder escribirle, y su Gmail para que entre al portal sin esperar
                 aprobación.
               </p>
@@ -108,7 +108,7 @@ export function FamilyDetailPage() {
                 {data.guardians.map((guardian) => (
                   <li key={guardian.id} className="flex items-center gap-3 px-4 py-3 md:px-5">
                     <div className="min-w-0 flex-1">
-                      <p className="flex flex-wrap items-center gap-2 text-[16px] font-bold text-ink">
+                      <p className="flex flex-wrap items-center gap-2 text-[1rem] font-bold text-ink">
                         {guardian.full_name}
                         {guardian.is_primary && <Badge tone="azul">Principal</Badge>}
                       </p>
@@ -136,7 +136,7 @@ export function FamilyDetailPage() {
 
           <Section title="Alumnos" flush>
             {data.students.length === 0 ? (
-              <p className="px-4 pb-4 text-[15px] text-ink-3 md:px-5 md:pb-5">Esta familia todavía no tiene alumnos.</p>
+              <p className="px-4 pb-4 text-[0.9375rem] text-ink-3 md:px-5 md:pb-5">Esta familia todavía no tiene alumnos.</p>
             ) : (
               <ul className="divide-y divide-line border-t border-line">
                 {data.students.map((student) => (
@@ -148,7 +148,7 @@ export function FamilyDetailPage() {
                         square
                       />
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-[16px] font-bold text-ink">
+                        <p className="truncate text-[1rem] font-bold text-ink">
                           {student.first_name} {student.last_name}
                         </p>
                         <p className="truncate text-sm text-ink-3">{student.discipline ?? 'Sin disciplina'}</p>
@@ -165,7 +165,7 @@ export function FamilyDetailPage() {
             {links.isPending ? (
               <Loading />
             ) : (links.data ?? []).length === 0 ? (
-              <p className="px-4 pb-4 text-[15px] text-ink-3 md:px-5 md:pb-5">
+              <p className="px-4 pb-4 text-[0.9375rem] text-ink-3 md:px-5 md:pb-5">
                 Ningún familiar entró todavía. Tienen que ingresar con su Gmail y validar la cédula de un alumno.
               </p>
             ) : (
@@ -197,18 +197,18 @@ export function FamilyDetailPage() {
             {fees.isPending ? (
               <Loading />
             ) : feeList.length === 0 ? (
-              <p className="border-t border-line px-4 py-4 text-[15px] text-ink-3 md:px-5">Todavía no tiene cuotas generadas.</p>
+              <p className="border-t border-line px-4 py-4 text-[0.9375rem] text-ink-3 md:px-5">Todavía no tiene cuotas generadas.</p>
             ) : (
               <ul className="divide-y divide-line border-t border-line">
                 {feeList.slice(0, 24).map((fee) => (
                   <li key={fee.id} className="flex items-center gap-3 px-4 py-2.5 md:px-5">
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[15px] font-semibold text-ink">
+                      <p className="truncate text-[0.9375rem] font-semibold text-ink">
                         {feeLabel(fee)}, {studentName(fee.student_id)}
                       </p>
-                      <p className="text-[13px] text-ink-3">Vence el {formatDate(fee.due_date)}</p>
+                      <p className="text-[0.8125rem] text-ink-3">Vence el {formatDate(fee.due_date)}</p>
                     </div>
-                    <span className="tabular shrink-0 text-[15px] font-bold text-ink">{formatMoney(fee.balance > 0 ? fee.balance : fee.amount)}</span>
+                    <span className="tabular shrink-0 text-[0.9375rem] font-bold text-ink">{formatMoney(fee.balance > 0 ? fee.balance : fee.amount)}</span>
                     <span className="flex w-[108px] shrink-0">
                       <FeeStateBadge state={fee.state} />
                     </span>
@@ -222,7 +222,7 @@ export function FamilyDetailPage() {
             {payments.isPending ? (
               <Loading />
             ) : (payments.data ?? []).length === 0 ? (
-              <p className="px-4 pb-4 text-[15px] text-ink-3 md:px-5 md:pb-5">Esta familia todavía no tiene pagos.</p>
+              <p className="px-4 pb-4 text-[0.9375rem] text-ink-3 md:px-5 md:pb-5">Esta familia todavía no tiene pagos.</p>
             ) : (
               <ul className="divide-y divide-line border-t border-line">
                 {(payments.data ?? []).slice(0, 24).map((payment) => (
@@ -233,8 +233,8 @@ export function FamilyDetailPage() {
                       className="flex w-full items-center gap-3 px-4 py-2.5 text-left hover:bg-cancha md:px-5"
                     >
                       <div className="min-w-0 flex-1">
-                        <p className="tabular text-[15px] font-bold text-ink">{formatMoney(payment.amount)}</p>
-                        <p className="text-[13px] text-ink-3">
+                        <p className="tabular text-[0.9375rem] font-bold text-ink">{formatMoney(payment.amount)}</p>
+                        <p className="text-[0.8125rem] text-ink-3">
                           {PAYMENT_METHOD[payment.method]} del {formatDate(payment.paid_on)}
                         </p>
                       </div>

@@ -54,8 +54,8 @@ export function FilePicker({
           </span>
         )}
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[15px] font-semibold text-ink">{value.name}</p>
-          <p className="text-[13px] text-ink-3">{formatFileSize(value.size)}</p>
+          <p className="truncate text-[0.9375rem] font-semibold text-ink">{value.name}</p>
+          <p className="text-[0.8125rem] text-ink-3">{formatFileSize(value.size)}</p>
         </div>
         <IconButton label="Quitar archivo" onClick={() => onChange(null)} disabled={disabled}>
           <X />
@@ -76,8 +76,8 @@ export function FilePicker({
       <span className="flex size-12 items-center justify-center rounded-full bg-brand-50 text-brand-600">
         <ImagePlus aria-hidden="true" className="size-6" />
       </span>
-      <span className="text-[15px] font-semibold text-ink">{label}</span>
-      {hint && <span className="text-[13px] text-ink-3">{hint}</span>}
+      <span className="text-[0.9375rem] font-semibold text-ink">{label}</span>
+      {hint && <span className="text-[0.8125rem] text-ink-3">{hint}</span>}
       <input
         id={id}
         type="file"

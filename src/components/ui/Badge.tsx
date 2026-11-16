@@ -92,7 +92,7 @@ export function CountPill({ count, className }: { count: number; className?: str
   return (
     <span
       className={cn(
-        'tabular inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-rojo-600 px-1.5 text-[11px] font-bold leading-none text-white',
+        'tabular inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-rojo-600 px-1.5 text-[0.6875rem] font-bold leading-none text-white',
         className,
       )}
     >

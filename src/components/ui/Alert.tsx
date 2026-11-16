@@ -32,7 +32,7 @@ export function Alert({ tone = 'info', title, children, action, className }: Ale
     >
       <div className="flex min-w-0 flex-1 items-start gap-2.5">
         <Icon aria-hidden="true" className="mt-0.5 size-[18px] shrink-0" />
-        <div className="min-w-0 text-[15px] leading-snug">
+        <div className="min-w-0 text-[0.9375rem] leading-snug">
           {title && <p className="font-bold">{title}</p>}
           {children && <div className={cn(title && 'mt-0.5')}>{children}</div>}
         </div>

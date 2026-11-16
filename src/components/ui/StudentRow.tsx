@@ -28,8 +28,8 @@ export function StudentRow({ name, photoUrl, meta, aside, to, className, style }
     <>
       <Avatar name={name} src={photoUrl} size="sm" />
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-[15px] font-semibold text-ink">{name}</span>
-        {meta && <span className="block truncate text-[13px] text-ink-3">{meta}</span>}
+        <span className="line-clamp-2 block text-[0.9375rem] font-semibold leading-snug text-ink">{name}</span>
+        {meta && <span className="block truncate text-[0.8125rem] text-ink-3">{meta}</span>}
       </span>
       {aside && <span className="shrink-0 text-right">{aside}</span>}
       {to && <ChevronRight aria-hidden="true" className="-mr-1 size-4 shrink-0 text-ink-3" />}

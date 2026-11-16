@@ -22,7 +22,8 @@ type NavItem = { to: string; label: string; icon: LucideIcon; end?: boolean; cou
 
 /**
  * Marco de administración, en noche.
- *  - Escritorio: menú fijo a la izquierda, con el escudo arriba.
+ *  - Escritorio (pantalla ancha y alta, variante `desk`): menú fijo a la izquierda, con el escudo arriba.
+ *    Un celular acostado sigue con el diseño de celular: el menú lateral no le entra.
  *  - Celular: encabezado y barra inferior noche con lo de todos los días; "Más" para el resto.
  * El menú no se anima: se usa decenas de veces por día (emil: lo frecuente no se anima).
  */
@@ -54,14 +55,14 @@ export function AdminLayout() {
 
   return (
     <div className="min-h-dvh bg-cancha">
-      <div className="cinta fixed inset-x-0 top-0 z-50" />
+      <div className="cinta top-safe fixed inset-x-0 z-50" />
 
       {/* Menú lateral (escritorio) */}
-      <aside className="noche fixed inset-y-0 left-0 z-30 hidden w-64 flex-col pt-1 md:flex">
+      <aside className="noche pt-safe fixed inset-y-0 left-0 z-30 hidden w-[calc(16rem+env(safe-area-inset-left))] flex-col pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] desk:flex">
         <div className="flex items-center gap-3 px-5 pb-6 pt-6">
-          <img src="/escudo-192.png" alt="" className="size-14 drop-shadow-[0_6px_14px_rgb(0_0_0/0.45)]" />
+          <img src="/escudo-96.webp" srcSet="/escudo-96.webp 96w, /escudo-192.webp 192w" sizes="56px" width="96" height="96" alt="" className="size-14 drop-shadow-[0_6px_14px_rgb(0_0_0/0.45)]" />
           <div className="min-w-0">
-            <p className="display text-[26px] text-white">CERSAP</p>
+            <p className="display text-[1.625rem] text-white">CERSAP</p>
             <p className="text-xs text-noche-muted">Región Sur, Alto Paraná</p>
           </div>
         </div>
@@ -97,20 +98,22 @@ export function AdminLayout() {
       </aside>
 
       {/* Encabezado (celular) */}
-      <header className="noche sticky top-0 z-30 flex h-16 items-center gap-3 px-4 pt-1 md:hidden">
-        <img src="/escudo-192.png" alt="" className="size-10" />
-        <p className="display text-[22px] text-white">CERSAP</p>
-        <span className="text-sm text-noche-muted">Administración</span>
+      <header className="noche pt-safe sticky top-0 z-30 desk:hidden">
+        <div className="flex h-16 items-center gap-3 pt-1 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]">
+          <img src="/escudo-96.webp" srcSet="/escudo-96.webp 96w, /escudo-192.webp 192w" sizes="40px" width="96" height="96" alt="" className="size-10" />
+          <p className="display text-[1.375rem] text-white">CERSAP</p>
+          <span className="text-sm text-noche-muted">Administración</span>
+        </div>
       </header>
 
-      <main className="px-4 pb-28 pt-5 md:ml-64 md:px-8 md:pb-12 md:pt-9">
+      <main className="pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pb-[calc(env(safe-area-inset-bottom)+7rem)] pt-5 desk:ml-[calc(16rem+env(safe-area-inset-left))] desk:pl-8 desk:pr-[max(2rem,env(safe-area-inset-right))] desk:pb-12 desk:pt-[calc(env(safe-area-inset-top)+2.25rem)]">
         <div className="mx-auto w-full max-w-[1160px]">
           <Outlet />
         </div>
       </main>
 
       {/* Barra inferior (celular) */}
-      <nav aria-label="Secciones" className="noche safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-white/10 md:hidden">
+      <nav aria-label="Secciones" className="noche safe-bottom px-safe fixed inset-x-0 bottom-0 z-30 border-t border-white/10 desk:hidden">
         <ul className="grid grid-cols-5">
           {main.map((item) => (
             <li key={item.to}>
@@ -119,7 +122,7 @@ export function AdminLayout() {
                 end={item.end}
                 className={({ isActive }) =>
                   cn(
-                    'relative flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-semibold',
+                    'relative flex h-16 flex-col items-center justify-center gap-1 text-xs font-semibold',
                     isActive ? 'text-white' : 'text-noche-muted',
                   )
                 }
@@ -144,7 +147,7 @@ export function AdminLayout() {
             <button
               type="button"
               onClick={() => setMoreOpen(true)}
-              className="flex h-16 w-full flex-col items-center justify-center gap-1 text-[11px] font-semibold text-noche-muted"
+              className="flex h-16 w-full flex-col items-center justify-center gap-1 text-xs font-semibold text-noche-muted"
             >
               <span className="relative flex h-7 w-12 items-center justify-center">
                 <Ellipsis aria-hidden="true" className="size-5" />
@@ -170,7 +173,7 @@ export function AdminLayout() {
                   setMoreOpen(false)
                   navigate(item.to)
                 }}
-                className="pressable flex h-14 w-full items-center gap-3 rounded-control px-3 text-left text-[16px] font-semibold text-ink hover:bg-cancha"
+                className="pressable flex h-14 w-full items-center gap-3 rounded-control px-3 text-left text-[1rem] font-semibold text-ink hover:bg-cancha"
               >
                 <span className="flex size-9 items-center justify-center rounded-full bg-brand-50 text-brand-700">
                   <item.icon aria-hidden="true" className="size-[18px]" />
@@ -184,7 +187,7 @@ export function AdminLayout() {
             <button
               type="button"
               onClick={() => void signOut()}
-              className="pressable flex h-14 w-full items-center gap-3 rounded-control px-3 text-left text-[16px] font-semibold text-rojo-700 hover:bg-rojo-50"
+              className="pressable flex h-14 w-full items-center gap-3 rounded-control px-3 text-left text-[1rem] font-semibold text-rojo-700 hover:bg-rojo-50"
             >
               <span className="flex size-9 items-center justify-center rounded-full bg-rojo-50">
                 <LogOut aria-hidden="true" className="size-[18px]" />
@@ -205,7 +208,7 @@ function SidebarLink({ item }: { item: NavItem }) {
       end={item.end}
       className={({ isActive }) =>
         cn(
-          'relative flex h-11 items-center gap-3 rounded-control px-3 text-[15px] font-semibold transition-colors duration-150',
+          'relative flex h-11 items-center gap-3 rounded-control px-3 text-[0.9375rem] font-semibold transition-colors duration-150',
           isActive ? 'bg-white/10 text-white' : 'text-noche-muted hover:bg-white/5 hover:text-white',
         )
       }

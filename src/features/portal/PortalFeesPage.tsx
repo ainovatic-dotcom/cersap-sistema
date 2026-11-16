@@ -11,8 +11,8 @@ export function PortalFeesPage() {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h1 className="display text-[30px] text-ink">Cuotas</h1>
-        <p className="mt-1 text-[15px] text-ink-2">Mensualidades y matrículas de cada alumno, de la más nueva a la más vieja.</p>
+        <h1 className="display text-[1.875rem] text-ink">Cuotas</h1>
+        <p className="mt-1 text-[0.9375rem] text-ink-2">Mensualidades y matrículas de cada alumno, de la más nueva a la más vieja.</p>
       </div>
 
       {data.fees.length === 0 ? (
@@ -55,7 +55,7 @@ function FeeRow({ fee }: { fee: PortalFee }) {
   return (
     <li className="flex items-center gap-3 px-4 py-3.5">
       <div className="min-w-0 flex-1">
-        <p className="text-[16px] font-bold text-ink">{feeLabel(fee)}</p>
+        <p className="text-[1rem] font-bold text-ink">{feeLabel(fee)}</p>
         <p className="text-sm text-ink-3">
           {fee.is_exempt ? 'No se cobra' : `Vence el ${formatDate(fee.due_date)}`}
           {fee.discount_amount > 0 && !fee.is_exempt && `, con descuento de ${formatMoney(fee.discount_amount)}`}
@@ -67,7 +67,7 @@ function FeeRow({ fee }: { fee: PortalFee }) {
         )}
       </div>
       <div className="flex shrink-0 flex-col items-end gap-1.5">
-        <span className="tabular text-[16px] font-bold text-ink">{formatMoney(fee.amount)}</span>
+        <span className="tabular text-[1rem] font-bold text-ink">{formatMoney(fee.amount)}</span>
         <FeeStateBadge state={fee.state} />
       </div>
     </li>

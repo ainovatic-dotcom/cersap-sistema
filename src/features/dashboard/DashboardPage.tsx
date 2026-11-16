@@ -103,7 +103,7 @@ function Resumen({ data }: { data: DashboardData }) {
     <SummaryCard aria-labelledby="resumen-titulo">
       <div className="grid gap-6 p-5 md:p-6 lg:grid-cols-[1fr_1.1fr] lg:gap-10">
         <div className="flex flex-col">
-          <p id="resumen-titulo" className="text-[15px] text-ink-2">
+          <p id="resumen-titulo" className="text-[0.9375rem] text-ink-2">
             Falta cobrar
           </p>
           <Money value={data.pending_balance} size="xl" className="mt-1 text-ink" />
@@ -120,8 +120,8 @@ function Resumen({ data }: { data: DashboardData }) {
         </div>
         <div className="flex flex-col">
           <div className="mb-4 flex items-baseline justify-between gap-3">
-            <p className="text-[15px] font-semibold text-ink">Cobrado por mes</p>
-            <p className="text-[13px] text-ink-3">Últimos 6 meses</p>
+            <p className="text-[0.9375rem] font-semibold text-ink">Cobrado por mes</p>
+            <p className="text-[0.8125rem] text-ink-3">Últimos 6 meses</p>
           </div>
           <BarChart
             title="Cobrado por mes, últimos 6 meses"
@@ -158,7 +158,7 @@ function MonthStates({ data }: { data: DashboardData }) {
       }
     >
       {total === 0 ? (
-        <p className="text-[15px] text-ink-3">Cuando generes las cuotas del mes, acá vas a ver cuántas se pagaron.</p>
+        <p className="text-[0.9375rem] text-ink-3">Cuando generes las cuotas del mes, acá vas a ver cuántas se pagaron.</p>
       ) : (
         <StateBar
           title={`Estado de las cuotas de ${month}`}
@@ -219,7 +219,7 @@ function Tasks({ data }: { data: DashboardData }) {
   return (
     <Section title="Para hacer" flush>
       {tasks.length === 0 ? (
-        <div className="flex items-center gap-3 px-5 pb-5 text-[15px] text-ink-2">
+        <div className="flex items-center gap-3 px-5 pb-5 text-[0.9375rem] text-ink-2">
           <span className="flex size-10 items-center justify-center rounded-full bg-verde-50 text-verde-600">
             <CircleCheck aria-hidden="true" className="size-5" />
           </span>
@@ -240,8 +240,8 @@ function Tasks({ data }: { data: DashboardData }) {
                 >
                   {task.icon}
                 </span>
-                <p className="min-w-0 flex-1 text-[15px] text-ink">
-                  <span className="dorsal mr-2 text-[26px] align-[-3px]">{task.count}</span>
+                <p className="min-w-0 flex-1 text-[0.9375rem] text-ink">
+                  <span className="dorsal mr-2 text-[1.625rem] align-[-3px]">{task.count}</span>
                   {task.label}
                 </p>
                 <ChevronRight aria-hidden="true" className="size-5 shrink-0 text-ink-3" />
@@ -283,7 +283,7 @@ function Birthdays({ data }: { data: DashboardData }) {
                   day === today ? (
                     <Badge tone="azul">Hoy cumple {turning}</Badge>
                   ) : (
-                    <span className="text-[13px] text-ink-2">
+                    <span className="text-[0.8125rem] text-ink-2">
                       {day > today ? `Cumple ${turning ?? ''} el ${day}` : `Cumplió el ${day}`}
                     </span>
                   )

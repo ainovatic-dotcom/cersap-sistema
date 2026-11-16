@@ -16,6 +16,7 @@ import { AuthShell } from '@/components/layout/AuthShell'
 import { useAuth } from '@/features/auth/AuthProvider'
 import { usePortalOverview, useRequestFamilyLink, type LinkResult } from '@/features/portal/api'
 import { todayIso } from '@/lib/format'
+import { haptic } from '@/lib/pwa'
 import { whatsappUrl } from '@/lib/whatsapp'
 
 const RESULT_MESSAGES: Partial<Record<LinkResult, string>> = {
@@ -67,6 +68,7 @@ export function LinkChildPage() {
     try {
       const result = await request.mutateAsync({ ci, birthDate })
       if (result === 'approved') {
+        haptic('success')
         toast.success('Listo, ya podés ver a tu familia')
         navigate('/portal', { replace: true })
         return
@@ -86,14 +88,14 @@ export function LinkChildPage() {
   const footer = (
     <>
       {hasAccess && (
-        <button type="button" className="font-semibold text-brand-700 hover:underline" onClick={() => navigate('/portal')}>
+        <button type="button" className="inline-flex min-h-11 items-center px-2 font-semibold text-brand-700 hover:underline" onClick={() => navigate('/portal')}>
           Volver al portal
         </button>
       )}
       <p>
         Entraste como <span className="font-semibold text-ink-2">{profile?.email}</span>
       </p>
-      <button type="button" className="font-semibold text-brand-700 hover:underline" onClick={() => void signOut()}>
+      <button type="button" className="inline-flex min-h-11 items-center px-2 font-semibold text-brand-700 hover:underline" onClick={() => void signOut()}>
         Cerrar sesión
       </button>
     </>
@@ -109,7 +111,7 @@ export function LinkChildPage() {
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3 rounded-control bg-ambar-50 p-3.5 text-ambar-800">
             <Clock aria-hidden="true" className="size-5 shrink-0" />
-            <p className="text-[15px] font-medium">Suele resolverse en el día. No hace falta que vuelvas a pedirlo.</p>
+            <p className="text-[0.9375rem] font-medium">Suele resolverse en el día. No hace falta que vuelvas a pedirlo.</p>
           </div>
           <WhatsAppLink phone={data.org.whatsapp_phone} message={helpMessage} size="lg" block>
             Avisar por WhatsApp
@@ -166,7 +168,7 @@ export function LinkChildPage() {
         </Button>
 
         {helpUrl && (
-          <a href={helpUrl} target="_blank" rel="noreferrer" className="text-center text-sm font-semibold text-brand-700 hover:underline">
+          <a href={helpUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center justify-center text-center text-sm font-semibold text-brand-700 hover:underline">
             ¿No te sale? Escribí a administración
           </a>
         )}

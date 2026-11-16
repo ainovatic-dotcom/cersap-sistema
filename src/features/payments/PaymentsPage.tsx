@@ -68,18 +68,18 @@ export function PaymentsPage() {
                   className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-cancha md:px-5"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-[16px] font-bold text-ink">{payment.family?.name ?? 'Familia'}</p>
+                    <p className="truncate text-[1rem] font-bold text-ink">{payment.family?.name ?? 'Familia'}</p>
                     <p className="truncate text-sm text-ink-3">
                       {payment.items
                         .map((item) => (item.fee ? `${feeLabel(item.fee)} de ${item.fee.student?.first_name ?? ''}` : 'Cuota'))
                         .join(', ')}
                     </p>
-                    <p className="mt-0.5 text-[13px] text-ink-3">
+                    <p className="mt-0.5 text-[0.8125rem] text-ink-3">
                       {PAYMENT_METHOD[payment.method]} del {formatDate(payment.paid_on)}
                       {payment.submitted_via === 'portal' ? ', informado desde el portal' : ''}
                     </p>
                   </div>
-                  <span className="tabular shrink-0 text-[17px] font-bold text-ink">{formatMoney(payment.amount)}</span>
+                  <span className="tabular shrink-0 text-[1.0625rem] font-bold text-ink">{formatMoney(payment.amount)}</span>
                   <ChevronRight aria-hidden="true" className="size-5 shrink-0 text-ink-3" />
                 </button>
               </li>

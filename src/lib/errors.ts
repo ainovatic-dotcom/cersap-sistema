@@ -44,3 +44,10 @@ export function errorMessage(error: unknown, fallback = 'Algo salió mal. Probá
   }
   return fallback
 }
+
+/** true si el error es por falta de conexión (no por permisos ni datos). */
+export function isNetworkError(error: unknown): boolean {
+  if (!error) return false
+  const e = error as { message?: string; name?: string }
+  return /failed to fetch|networkerror|load failed|network request failed/i.test(e.message ?? '') || e.name === 'AuthRetryableFetchError'
+}

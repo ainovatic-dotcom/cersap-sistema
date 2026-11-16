@@ -20,10 +20,10 @@ type SummaryStatProps = { label: string; children: ReactNode; tone?: 'rojo' | 'v
 export function SummaryStat({ label, children, tone, className }: SummaryStatProps) {
   return (
     <div className={cn('flex flex-col', className)}>
-      <dt className="whitespace-nowrap text-[13px] text-ink-3">{label}</dt>
+      <dt className="whitespace-nowrap text-[0.8125rem] text-ink-3">{label}</dt>
       <dd
         className={cn(
-          'dorsal mt-auto pt-1 text-[24px]',
+          'dorsal mt-auto pt-1 text-[1.5rem]',
           tone === 'rojo' ? 'text-rojo-600' : tone === 'verde' ? 'text-verde-700' : 'text-ink',
         )}
       >

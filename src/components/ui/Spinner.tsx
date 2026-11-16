@@ -29,7 +29,7 @@ export function Loading({ label = 'Cargando' }: { label?: string }) {
 export function FullPageLoading() {
   return (
     <div role="status" className="noche flex min-h-dvh flex-col items-center justify-center gap-6">
-      <img src="/escudo-192.png" alt="" className="size-24" />
+      <img src="/escudo-96.webp" srcSet="/escudo-96.webp 96w, /escudo-192.webp 192w" sizes="96px" width="96" height="96" alt="" className="size-24" />
       <Spinner className="size-6 text-celeste" />
       <span className="sr-only">Cargando</span>
     </div>

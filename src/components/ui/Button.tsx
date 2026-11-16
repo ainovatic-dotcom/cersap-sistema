@@ -22,8 +22,9 @@ const VARIANTS: Record<ButtonVariant, string> = {
 }
 
 const SIZES: Record<ButtonSize, string> = {
-  sm: 'h-9 gap-1.5 px-3.5 text-[13px] [&_svg]:size-4',
-  md: 'h-11 gap-2 px-4 text-[15px] [&_svg]:size-[18px]',
+  // En pantallas táctiles el chico también llega a 44 px: se toca con el dedo, no con el mouse
+  sm: 'h-9 gap-1.5 px-3.5 text-[0.8125rem] pointer-coarse:h-11 [&_svg]:size-4',
+  md: 'h-11 gap-2 px-4 text-[0.9375rem] [&_svg]:size-[18px]',
   lg: 'h-[54px] gap-2.5 px-6 text-base [&_svg]:size-5',
 }
 
@@ -107,7 +108,7 @@ export function IconButton({ label, onDark, className, children, type = 'button'
       aria-label={label}
       title={label}
       className={cn(
-        'pressable inline-flex size-10 shrink-0 items-center justify-center rounded-control disabled:opacity-45 [&_svg]:size-5',
+        'pressable inline-flex size-10 shrink-0 items-center justify-center rounded-control pointer-coarse:size-11 disabled:opacity-45 [&_svg]:size-5',
         onDark ? 'text-noche-muted hover:bg-white/10 hover:text-white' : 'text-ink-2 hover:bg-line/70 hover:text-ink',
         className,
       )}

@@ -53,6 +53,23 @@ public/                 escudo, íconos y cabeceras de seguridad (_headers)
 
 ---
 
+## App en el celular (PWA)
+
+La app se instala desde el navegador:
+
+- **Android (Chrome):** en el inicio del portal aparece "Instalá la app en tu celular". Tocá **Instalar**. También funciona desde el menú ⋮ → *Instalar app*.
+- **iPhone/iPad (Safari):** el botón **Cómo instalarla** muestra los tres pasos: Compartir → *Agregar a inicio* → *Agregar*.
+
+Cómo está armada:
+
+- `vite.config.ts` → `VitePWA`: el manifiesto (nombre, colores, íconos, accesos directos, capturas) y el service worker. El service worker guarda solo la cáscara de la app; los pedidos a Supabase van siempre a la red.
+- `index.html` → las etiquetas de iPhone y las 26 pantallas de arranque (`public/splash/`).
+- `src/lib/pwa.ts` → detección de plataforma, estado de instalación, conexión y vibración.
+- `src/components/pwa/` → la tarjeta de instalación y la guía de iPhone, el aviso de versión nueva, la franja sin conexión y el gesto de deslizar para actualizar.
+- `public/_headers` → `sw.js` y el manifiesto sin caché, para que las actualizaciones lleguen enseguida.
+
+Si cambia el escudo, `python3 scripts/generar-iconos.py` regenera los íconos y las pantallas de arranque (e imprime las etiquetas para `index.html` si cambia la lista de equipos).
+
 ## Trabajar en tu computadora
 
 ```bash
@@ -81,7 +98,7 @@ python3 tests/e2e/e2e.py http://localhost:4173 "portal"   # solo las que coincid
 python3 tests/e2e/shots.py http://localhost:4173          # capturas de cada pantalla
 ```
 
-Corren 17 pruebas en escritorio (1360×900) y en celular (390×844):
+Corren 22 pruebas en escritorio (1360×900) y en celular (390×844), 44 en total:
 
 - Ingreso con Google (PKCE).
 - Rutas protegidas, y un tutor que no puede entrar a administración.
@@ -93,6 +110,7 @@ Corren 17 pruebas en escritorio (1360×900) y en celular (390×844):
 - Vinculación con cédula y fecha de nacimiento.
 - El portal informando un pago con comprobante.
 - Accesibilidad básica, tamaño de lo que se toca, movimiento reducido y desborde horizontal.
+- App en el celular: manifiesto e íconos, instalación en Android, guía de iPhone, franja sin conexión y abrir la app sin señal con la sesión guardada.
 
 Las capturas y el resultado quedan en `tests/e2e/capturas/`.
 

@@ -75,13 +75,13 @@ export function InvoicesPage() {
                   <FileText aria-hidden="true" className="size-5" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-[16px] font-bold text-ink">Factura {invoice.number}</p>
+                  <p className="truncate text-[1rem] font-bold text-ink">Factura {invoice.number}</p>
                   <p className="truncate text-sm text-ink-3">
                     {invoice.family?.name}, {formatDate(invoice.issued_on)}
                     {invoice.payment ? `, pago del ${formatDate(invoice.payment.paid_on)}` : ', sin pago asociado'}
                   </p>
                 </div>
-                <span className="tabular hidden shrink-0 text-[16px] font-bold text-ink sm:block">{formatMoney(invoice.amount)}</span>
+                <span className="tabular hidden shrink-0 text-[1rem] font-bold text-ink sm:block">{formatMoney(invoice.amount)}</span>
                 <IconButton label={`Abrir la factura ${invoice.number}`} onClick={() => openFile('invoices', invoice.file_path).catch(toast.error)}>
                   <Download />
                 </IconButton>
