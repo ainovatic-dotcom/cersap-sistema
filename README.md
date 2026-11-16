@@ -108,14 +108,13 @@ Que aparezca como "ERROR" es a propósito: así se deshacen todos los datos de p
 
 ---
 
-## Publicar en Cloudflare
+## Publicación en Cloudflare
 
-```bash
-npx wrangler login
-npm run deploy
-```
+El sitio está en **https://cersap-sistema.ainovatic.workers.dev**.
 
-La alternativa es conectar el repositorio en **Workers Builds** (Cloudflare → Workers → Create → Import a repository), con `npm run build` como comando de compilación y `npx wrangler deploy` como comando de publicación.
+El repositorio está conectado a **Workers Builds**: cada cambio que se sube a `main` se compila (`npm run build`) y se publica (`npx wrangler deploy`) solo. El avance se ve en Cloudflare → Workers & Pages → cersap-sistema → Deployments.
+
+Para publicar a mano desde una computadora: `npx wrangler login` y después `npm run deploy`.
 
 `wrangler.jsonc` sirve la carpeta `dist/` como aplicación de una sola página. `public/_headers` agrega la política de contenido (CSP) y las demás cabeceras de seguridad.
 

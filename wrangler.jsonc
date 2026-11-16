@@ -4,6 +4,10 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "cersap-sistema",
   "compatibility_date": "2026-11-15",
+  // Dirección pública: https://cersap-sistema.ainovatic.workers.dev
+  "workers_dev": true,
+  // Sin direcciones de vista previa: cada versión de prueba quedaría pública
+  "preview_urls": false,
   "assets": {
     "directory": "./dist",
     // Cualquier ruta que no sea un archivo devuelve index.html (lo resuelve React Router)
